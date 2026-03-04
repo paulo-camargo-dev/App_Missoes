@@ -110,12 +110,45 @@
 <script src="js/include.js"></script>
 <script src="js/script.js"></script>
 <script type="module" src="js/carregarHero.js"></script>
+<button onclick="loginGitHub()">Login com GitHub</button>
 
+<script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-app.js";
+    import { getAuth, GithubAuthProvider, signInWithPopup } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-auth.js";
+
+    const firebaseConfig = {
+        apiKey: "SUA_API_KEY",
+        authDomain: "SEU_AUTH_DOMAIN",
+        projectId: "SEU_PROJECT_ID",
+        storageBucket: "SEU_BUCKET",
+        messagingSenderId: "SEU_SENDER_ID",
+        appId: "SEU_APP_ID"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+    const provider = new GithubAuthProvider();
+
+    async function loginGitHub() {
+        try {
+            const result = await signInWithPopup(auth, provider);
+            const user = result.user;
+
+            // redireciona depois do login
+            window.location.href = "pagina-destino.html";
+
+        } catch (error) {
+            console.error(error);
+            alert("Erro ao fazer login: " + error.message);
+        }
+    }
+</script>
 
 
 
 </body>
 </html>
+
 
 
 
