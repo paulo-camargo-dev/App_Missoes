@@ -1,6 +1,7 @@
-// Firebase Compat (funciona no GitHub Pages)
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+import { getFirestore } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+import { getAuth } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
 
-// Config do Firebase
 const firebaseConfig = {
     apiKey: "AIzaSyA6vv58ejDEH8cmh3833VchEd7DIct8ba0",
     authDomain: "appmissoes-21c4f.firebaseapp.com",
@@ -10,10 +11,12 @@ const firebaseConfig = {
     appId: "1:97813114592:web:5d51ae9b0bf9f01058ea85"
 };
 
-// Inicializa Firebase (COMPAT)
-firebase.initializeApp(firebaseConfig);
+// Inicializa Firebase (método novo)
+export const app = initializeApp(firebaseConfig);
 
-// Globais (compat)
-const db = firebase.firestore();
-const auth = firebase.auth();
+// Firestore
+export const db = getFirestore(app);
+
+// Auth
+export const auth = getAuth(app);
 
