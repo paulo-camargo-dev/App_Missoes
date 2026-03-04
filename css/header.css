@@ -1,0 +1,98 @@
+/* HEADER */
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 40px;
+    background: #fff;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+    position: relative;
+    z-index: 1000;
+}
+
+.logo-area {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.logo-circle {
+    width: 50px;
+    height: 50px;
+    background: #2f4f75;
+    color: #fff;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 22px;
+    font-weight: bold;
+}
+
+.logo-area h2 { color: #2f4f75; }
+.logo-area span { font-size: 13px; color: #777; }
+
+/* MENU */
+.menu {
+    display: flex;
+    gap: 15px;
+}
+
+.menu a {
+    text-decoration: none;
+    color: #555;
+    padding: 8px 16px;
+    border-radius: 20px;
+    font-weight: 500;
+    transition: 0.3s;
+}
+
+.menu a:hover { background: #eaeef5; }
+.menu a.active { background: #2f4f75; color: #fff; }
+
+/* HAMBURGUER */
+.menu-toggle {
+    display: none;
+    font-size: 28px;
+    cursor: pointer;
+    background: none;
+    border: none;
+}
+
+/* RESPONSIVO */
+@media (max-width: 768px) {
+.menu {
+    position: fixed;
+    top: 0;
+    right: -300px;
+    width: 260px;
+    height: 100vh;
+    background: #bcc9dd;
+    flex-direction: column;
+    padding: 80px 20px;
+    transition: right 0.3s ease;
+    box-shadow: -5px 0 20px rgba(0,0,0,0.15);
+    z-index: 1002;
+}
+
+.menu.ativo { right: 0; }
+
+.menu a { margin: 15px 0; }
+
+.menu-toggle { display: block; }
+}
+
+/* OVERLAY */
+.menu-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.4);
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s ease;
+    z-index: 1000;
+}
+
+
+/* BLOQUEIO SCROLL */
+body.no-scroll { overflow: hidden; }

@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Faça a diferença</title>
+    
+    <link rel="stylesheet" href="css/header.css">
+     <link rel="stylesheet" href="css/doacao.css">
+     <link rel="stylesheet" href="css/footer.css">
+</head>
+<body>
+    <!--include-->
+    <div id="header"></div>
+    <!--include-->
+<section class="topo">
+    <div class="icone">💛</div>
+    <span class="subtitulo">FAÇA A DIFERENÇA</span>
+    <h1>Contribua com as Missões</h1>
+    <p>Sua doação ajuda a transformar vidas. Cada contribuição é usada para levar esperança às comunidades necessitadas.</p>
+</section>
+
+<section class="tabs">
+    <button class="tab active" onclick="mostrarAba('pix')">📱 PIX</button>
+    <button class="tab" onclick="mostrarAba('transferencia')">🏦 Transferência</button>
+</section>
+
+<section id="pix" class="conteudo active">
+
+    <div class="card">
+        <h3>🔳 QR Code PIX</h3>
+        <div class="qr-box">
+            <img src="../assets/images/qr.png" alt="QR Code PIX">
+        </div>
+        <p>Escaneie o código com o aplicativo do seu banco</p>
+    </div>
+
+    <div class="card">
+        <h3>💳 Chave PIX</h3>
+        <div class="pix-chave">
+            missoes@exemplo.com.br
+            <span onclick="copiarPix()">📋</span>
+        </div>
+
+        <div class="passos">
+            <div><span>1</span> Abra o app do seu banco e acesse a área PIX</div>
+            <div><span>2</span> Cole a chave PIX ou escaneie o QR Code</div>
+            <div><span>3</span> Confirme o valor e finalize a doação</div>
+        </div>
+    </div>
+
+</section>
+
+<section id="transferencia" class="conteudo">
+
+    <div class="card centralizado">
+        <h3>🏦 Dados Bancários</h3>
+        <br>
+        <p><strong>Banco:</strong> Banco do Brasil</p>
+        <br>
+        <p><strong>Agência:</strong> 0001</p>
+        <br>
+        <p><strong>Conta:</strong> 12345-6</p>
+        <br>
+        <p><strong>Nome:</strong> Missões Transformando Vidas</p>
+        <br>
+        <button onclick="copiarTransferencia()">Copiar Dados</button>
+    </div>
+
+</section>
+
+<section class="transparencia">
+    <h2>100% de transparência</h2>
+    <p>Todas as doações são utilizadas integralmente nas missões. Prestamos contas regularmente
+        e você pode acompanhar o impacto da sua contribuição através das nossas redes
+        sociais e galeria de fotos.
+    </p>
+</section>
+
+<div id="footer"></div>
+
+
+    
+    <script src="js/include.js"></script>
+    <script src="js/script.js"></script>
+</body>
+</html>

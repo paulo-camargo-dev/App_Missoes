@@ -1,0 +1,146 @@
+/* ============================= */
+/* RESET GLOBAL */
+/* ============================= */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Segoe UI', Arial, sans-serif;
+}
+
+body {
+  background: #f2f6f9;
+  color: #333;
+  min-height: 100vh;
+}
+
+/* ============================= */
+/* SECTION CONTATO */
+/* ============================= */
+#contato {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 80px 20px;
+  background: linear-gradient(135deg, #f5f7fa, #e4ecf7);
+}
+
+/* ============================= */
+/* CARD DO FORMULÁRIO */
+/* ============================= */
+#contato .container {
+  background: #ffffff;
+  width: 100%;
+  max-width: 650px;
+  padding: 40px;
+  border-radius: 16px;
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.08);
+  transition: transform 0.3s ease;
+}
+
+#contato .container:hover {
+  transform: translateY(-3px);
+}
+
+/* ============================= */
+/* TÍTULO */
+/* ============================= */
+#contato h2 {
+  text-align: center;
+  color: #1e3a8a;
+  margin-bottom: 30px;
+  font-size: 1.8rem;
+}
+
+/* ============================= */
+/* FORMULÁRIO */
+/* ============================= */
+#formContato {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+/* GRUPOS DE INPUT */
+.input-group {
+  position: relative;
+}
+
+.input-group span {
+  position: absolute;
+  left: 14px;
+  top: 12px;
+  font-size: 1.1rem;
+  color: #888;
+}
+
+.input-group input,
+.input-group textarea {
+  width: 100%;
+  padding: 12px 12px 12px 40px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  font-size: 1rem;
+  transition: all 0.3s ease;
+  background: #fafafa;
+}
+
+.input-group input:focus,
+.input-group textarea:focus {
+  border-color: #1e3a8a;
+  background: #fff;
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(30, 58, 138, 0.1);
+}
+
+.input-group textarea {
+  resize: vertical;
+  min-height: 120px;
+}
+
+/* ============================= */
+/* BOTÃO */
+/* ============================= */
+#formContato button {
+  background: linear-gradient(135deg, #1e3a8a, #15306b);
+  color: #fff;
+  padding: 14px;
+  border: none;
+  border-radius: 8px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-weight: 600;
+}
+
+#formContato button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 20px rgba(30, 58, 138, 0.2);
+}
+
+/* ============================= */
+/* TEXTO INFERIOR */
+/* ============================= */
+.info-text {
+  text-align: center;
+  margin-top: 20px;
+  font-size: 0.9rem;
+  color: #555;
+}
+
+/* ============================= */
+/* RESPONSIVO */
+/* ============================= */
+@media (max-width: 600px) {
+  #contato {
+    padding: 60px 15px;
+  }
+
+  #contato .container {
+    padding: 25px;
+  }
+
+  #contato h2 {
+    font-size: 1.5rem;
+  }
+}

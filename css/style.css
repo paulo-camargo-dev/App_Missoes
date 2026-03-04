@@ -1,0 +1,209 @@
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+}
+
+body{
+font-family:'Segoe UI',sans-serif;
+background:#f4f6f9;
+color:#333;
+line-height:1.6;
+}
+
+.container{
+max-width:1200px;
+margin:auto;
+padding:0 20px;
+}
+/* ================= HERO DINÂMICO ================= */
+.hero {
+    position: relative;
+    width: 100%;
+    height: 70vh; /* ajuste conforme seu layout */
+    overflow: hidden;
+}
+
+.hero-slide {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-size: cover;
+    background-position: center;
+    opacity: 0;
+    transition: opacity 1s ease;
+}
+
+.hero-slide.active {
+    opacity: 1;
+}
+
+/* Overlay para clarear a imagem */
+.hero-slide .hero-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(255, 255, 255, 0.3); /* ajuste 0.3 para mais ou menos claro */
+    z-index: 1;
+}
+
+/* Conteúdo do slide/carrossel */
+.hero-slide .hero-content {
+    position: relative;
+    z-index: 2; /* mantém o texto acima do overlay */
+    color: #000000; /* cor do texto  do carrossel*/
+    text-align: center;
+    top: 50%;
+    transform: translateY(-50%);
+    padding: 20px;
+}
+
+.hero-slide h1 {
+    font-size: 3rem;
+    margin-bottom: 10px;
+}
+
+.hero-slide p {
+    font-size: 1.2rem;
+}
+
+
+.btn-primary{
+display:inline-block;
+margin-top:20px;
+padding:12px 30px;
+background:#00aa66;
+color:white;
+border-radius:30px;
+text-decoration:none;
+transition:.3s;
+}
+
+.btn-primary:hover{
+background:#008f55;
+}
+
+/* SOBRE */
+.sobre{
+padding:80px 0;
+text-align:center;
+}
+
+/* ÁREAS */
+.areas{
+padding:80px 0;
+background:#fff;
+text-align:center;
+}
+
+.areas-grid{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
+gap:30px;
+margin-top:40px;
+}
+
+.area-card{
+background:#f9f9f9;
+border-radius:15px;
+overflow:hidden;
+box-shadow:0 8px 25px rgba(0,0,0,.08);
+transition:.3s;
+}
+
+.area-card:hover{
+transform:translateY(-8px);
+}
+
+.area-card img{
+width:100%;
+height:200px;
+object-fit:cover;
+}
+
+.area-card h3{
+margin:20px 0 10px;
+}
+
+/* PUBLICAÇÕES */
+.publicacoes{
+padding:80px 0;
+text-align:center;
+}
+
+.cards-grid{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
+gap:30px;
+margin-top:40px;
+}
+
+.post-card{
+background:white;
+border-radius:15px;
+overflow:hidden;
+box-shadow:0 10px 30px rgba(0,0,0,.08);
+transition:.3s;
+}
+
+.post-card:hover{
+transform:translateY(-6px);
+}
+
+.post-card img{
+width:100%;
+height:180px;
+object-fit:cover;
+}
+
+.post-content{
+padding:20px;
+}
+
+/* CTA */
+.cta{
+padding:80px 20px;
+text-align:center;
+background:linear-gradient(135deg,#1e3a8a,#00aa66);
+color:white;
+}
+
+.btn-secondary{
+display:inline-block;
+margin-top:20px;
+padding:12px 30px;
+background:white;
+color:#1e3a8a;
+border-radius:30px;
+text-decoration:none;
+font-weight:bold;
+}
+
+/* FOOTER */
+footer{
+background:#111;
+color:white;
+text-align:center;
+padding:20px;
+}
+
+/* RESPONSIVO */
+@media(max-width:768px){
+.hero{
+height:50vh;
+}
+
+.hero-content h1{
+font-size:22px;
+}
+}
+
+.post-card-link {
+    display: block;        /* mantém o card como bloco */
+    text-decoration: none; /* remove sublinhado do link */
+    color: inherit;        /* mantém a cor do texto */
+}

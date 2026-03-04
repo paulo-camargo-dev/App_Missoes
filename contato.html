@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contato</title>
+    
+    <link rel="stylesheet" href="css/header.css">
+    <link rel="stylesheet" href="css/contato.css">
+    <link rel="stylesheet" href="css/footer.css">
+</head>
+<body>
+<div id="header"></div>
+<!-- HEADER -->
+<!-- Section de Contato Estilo Sistema de Agendamento -->
+<section id="contato">
+  <div class="container">
+    <h2>Contato / Pedido de Oração</h2>
+
+    <form id="formContato">
+
+      <div class="input-group">
+        <span>👤</span>
+        <input type="text" id="nome" placeholder="Seu Nome" required>
+      </div>
+
+      <div class="input-group">
+        <span>📱</span>
+        <input type="tel" id="telefone" placeholder="Telefone / WhatsApp" required>
+      </div>
+
+      <div class="input-group">
+        <span>✉️</span>
+        <input type="email" id="email" placeholder="E-mail" required>
+      </div>
+
+      <div class="input-group">
+        <span>🏠</span>
+        <input type="text" id="endereco" placeholder="Endereço">
+      </div>
+
+      <div class="input-group">
+        <span>🙏</span>
+        <textarea id="pedido" placeholder="Pedido de Oração" required></textarea>
+      </div>
+
+      <button type="submit">Enviar via WhatsApp</button>
+    </form>
+
+    <p class="info-text">
+      Seus dados serão enviados diretamente para nosso WhatsApp.
+    </p>
+  </div>
+</section>
+
+<script>
+document.getElementById("formContato").addEventListener("submit", function(e){
+  e.preventDefault();
+
+  const nome = document.getElementById("nome").value.trim();
+  const telefone = document.getElementById("telefone").value.trim();
+  const email = document.getElementById("email").value.trim();
+  const endereco = document.getElementById("endereco").value.trim();
+  const pedido = document.getElementById("pedido").value.trim();
+
+  // Validação simples
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  const telRegex = /^[0-9]{8,15}$/; // apenas números, 8 a 15 dígitos
+
+  if(!nome || !telefone || !email || !pedido){
+    alert("Por favor, preencha todos os campos obrigatórios!");
+    return;
+  }
+
+  if(!emailRegex.test(email)){
+    alert("Por favor, insira um e-mail válido!");
+    return;
+  }
+
+  const telNumeros = telefone.replace(/\D/g,''); // Remove caracteres não numéricos
+  if(!telRegex.test(telNumeros)){
+    alert("Por favor, insira um telefone/WhatsApp válido (somente números)!");
+    return;
+  }
+
+  // Número do WhatsApp da ONG (ex.: 55DDDNUMERO)
+  const numeroWhats = "5511913563576";
+
+  const mensagem = `🙏 Pedido de oração via site:%0A
+*Nome:* ${nome}%0A
+*Telefone:* ${telefone}%0A
+*E-mail:* ${email}%0A
+*Endereço:* ${endereco}%0A
+*Pedido de Oração:* ${pedido}`;
+
+  const urlWhats = `https://wa.me/${numeroWhats}?text=${mensagem}`;
+
+  window.open(urlWhats, "_blank");
+});
+</script>
+
+<div id="footer"></div>
+
+
+    
+    <script src="js/include.js"></script>
+    <script src="js/script.js"></script>
+</body>
+</html>

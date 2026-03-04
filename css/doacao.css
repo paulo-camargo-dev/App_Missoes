@@ -1,0 +1,159 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    font-family: 'Segoe UI', sans-serif;
+    background: #f4f5f7;
+    color: #503a2c;
+}
+
+.topo {
+    text-align: center;
+    padding: 60px 20px 30px;
+}
+
+.icone {
+    font-size: 40px;
+    background: #f5e6c8;
+    width: 70px;
+    height: 70px;
+    border-radius: 50%;
+    line-height: 70px;
+    margin: auto;
+}
+
+.subtitulo {
+    display: block;
+    margin-top: 20px;
+    font-size: 13px;
+    color: #c49b3f;
+    letter-spacing: 1px;
+}
+
+h1 {
+    margin: 10px 0;
+    font-size: 34px;
+}
+
+.tabs {
+    display: flex;
+    justify-content: center;
+    margin: 30px 0;
+}
+
+.tab {
+    padding: 12px 30px;
+    border: none;
+    background: #e5e7eb;
+    cursor: pointer;
+    font-size: 16px;
+    border-radius: 10px;
+    margin: 0 5px;
+    color: #2f4f75;
+}
+
+.tab.active {
+    background: white;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.08);
+}
+
+.conteudo {
+    display: none;
+    justify-content: center;
+    gap: 30px;
+    padding: 20px;
+    flex-wrap: wrap;
+}
+
+.conteudo.active {
+    display: flex;
+}
+
+.card {
+    background: white;
+    padding: 25px;
+    width: 350px;
+    border-radius: 15px;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.05);
+}
+
+.qr-box {
+    background: #eef1f5;
+    padding: 30px;
+    border-radius: 15px;
+    text-align: center;
+}
+
+.qr-box img {
+    width: 150px;
+}
+
+.pix-chave {
+    background: #2f4f75;
+    color: white;
+    padding: 15px;
+    border-radius: 10px;
+    margin-bottom: 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.pix-chave span {
+    cursor: pointer;
+}
+
+.passos div {
+    background: #f8f1df;
+    padding: 12px;
+    border-radius: 10px;
+    margin-bottom: 10px;
+    font-size: 14px;
+}
+
+.passos span {
+    background: #e5c77a;
+    padding: 5px 10px;
+    border-radius: 50%;
+    margin-right: 10px;
+}
+
+.centralizado {
+    text-align: center;
+}
+
+button {
+    padding: 10px 20px;
+    background: #2f4f75;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+}
+
+.transparencia {
+    background: #e9edf2;
+    margin: 60px 20px;
+    padding: 40px;
+    text-align: center;
+    border-radius: 20px;
+}
+
+@media (max-width: 768px) {
+    .conteudo {
+        flex-direction: column;
+        align-items: center;
+    }
+    .header { 
+        background-color: #1e3a8a; /* azul suave */
+    
+    }
+    .logo-area h2 { color: #FFF; }
+    .logo-area span { font-size: 13px; color: #FFF; }
+}
+
+

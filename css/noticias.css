@@ -1,0 +1,107 @@
+/* ===== Estilo Geral ===== */
+body {
+    font-family: 'Segoe UI', sans-serif;
+    background: #fafafa;
+    margin: 0;
+    padding: 0;
+}
+
+/* ===== GRID DE CARDS ===== */
+.grid-noticias {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap: 20px;
+    padding: 20px;
+}
+
+/* ===== CARD DE NOTÍCIA ===== */
+.card-noticia {
+    display: flex;
+    flex-direction: row; /* imagem à esquerda, conteúdo à direita */
+    background: #fff;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    transition: transform 0.3s, box-shadow 0.3s;
+    cursor: pointer;
+    width: 100%;
+    max-width: 100%;
+}
+
+.card-noticia:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+}
+
+/* ===== IMAGEM ===== */
+.card-noticia img {
+    width: 150px;
+    height: 150px;
+    object-fit: cover;
+    flex-shrink: 0;
+    border-radius: 12px 0 0 12px; /* borda arredondada apenas na esquerda */
+}
+
+/* ===== CONTEÚDO DA NOTÍCIA ===== */
+.conteudo-noticia {
+    padding: 15px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    flex: 1; /* ocupa o restante do card */
+    word-wrap: break-word; /* evita que textos grandes saiam do card */
+    overflow: hidden;
+}
+
+/* TÍTULO */
+.conteudo-noticia h3 {
+    margin: 0 0 10px 0;
+    font-size: 18px;
+    color: #333;
+}
+
+/* COMENTÁRIO / PREVIEW DA NOTÍCIA */
+.conteudo-noticia p {
+    margin: 0;
+    font-size: 14px;
+    color: #555;
+    line-height: 1.4;
+    overflow: hidden;
+}
+
+/* BOTÃO SAIBA MAIS */
+.btn-saiba-mais {
+    display: inline-block;
+    margin-top: 10px;
+    padding: 8px 14px;
+    background-color: #1976d2;
+    color: #fff;
+    border-radius: 6px;
+    text-decoration: none;
+    font-size: 14px;
+    width: fit-content;
+    transition: background-color 0.3s;
+}
+
+.btn-saiba-mais:hover {
+    background-color: #135ba1;
+}
+
+/* ===== RESPONSIVO ===== */
+@media (max-width: 500px) {
+    .card-noticia {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .card-noticia img {
+        width: 100%;
+        height: auto;
+        border-radius: 12px 12px 0 0;
+    }
+
+    .conteudo-noticia {
+        width: 100%;
+        padding: 10px;
+    }
+}

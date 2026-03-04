@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Administração</title>
+<link rel="stylesheet" href="css/header.css">
+<link rel="stylesheet" href="css/adminhero.css"> <!-- unificado -->
+</head>
+<body>
+
+<div id="header"></div>
+<br>
+
+<!-- PAINEL ADMIN -->
+    <div id="adminPanel" class="admin-panel box">
+    <!-- Seção Notícias -->
+        <div class="hero-form">
+            <div style="text-align:right; margin: 0 20px 15px 0;">
+            <button class="btn-voltar" onclick="voltarIndex()">← Carregar Home</button>
+             
+        </div>
+            <h3>Gerenciar Notícias</h3>
+            <input type="text" id="tituloNoticia" placeholder="Título da notícia" required>
+            <textarea id="conteudoNoticia" placeholder="Conteúdo" required></textarea>
+            <input type="file" id="imagemNoticia" accept="image/*" required>
+            <img id="previewNoticia" style="display:none;">
+            <button onclick="salvarNoticia()">Adicionar Notícia</button>
+            <div id="listaNoticiasAdmin"></div>
+        </div>
+    <br>
+
+    <!-- Seção Fotos -->
+        <div class="sobre-form">
+            <h3>Gerenciar Galeria de Fotos</h3>
+            <input type="text" id="tituloFoto" placeholder="Título" required>
+            <input type="text" id="descricaoFoto" placeholder="Descrição" required>
+            <input type="file" id="imagemFoto" accept="image/*" required>
+            <button onclick="salvarFoto()">Adicionar Foto</button>
+            <div id="listaFotosAdmin"></div>
+        </div>
+
+    </div>
+
+<script src="js/include.js"></script>
+<script src="js/admin.js" type="module"></script>
+
+<script>
+function voltarIndex() {
+    window.location.href = "adminhero.html";
+}
+</script>
+
+</body>
+</html>

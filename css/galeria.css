@@ -1,0 +1,81 @@
+body {
+    font-family: 'Segoe UI', sans-serif;
+    background: #fafafa;
+    margin: 0;
+    padding: 0;
+}
+
+/* GRID RESPONSIVO */
+.grid-galeria {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+    gap: 20px;
+    padding: 20px;
+}
+
+/* CARD COMPLETO */
+.item-galeria {
+    background: #fff;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    cursor: pointer;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.item-galeria:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 15px 30px rgba(0,0,0,0.2);
+}
+
+/* IMAGEM */
+.item-galeria img {
+    width: 100%;
+    aspect-ratio: 1/1;
+    object-fit: cover;
+    display: block;
+    transition: transform 0.3s ease;
+}
+
+.item-galeria:hover img {
+    transform: scale(1.05);
+}
+
+/* TITULO SOBREPOSTO NO RODAPÉ DA FOTO */
+.item-galeria h2 {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    margin: 0;
+    padding: 8px;
+    font-size: 14px;
+    color: white;
+    background: rgba(0,0,0,0.6);
+    text-align: center;
+}
+
+/* COMENTÁRIO ABAIXO DA IMAGEM */
+.item-galeria .descricao-card {
+    padding: 10px;
+    font-size: 13px;
+    color: #555;
+    text-align: center;
+    border-top: 1px solid #eee;
+}
+
+/* LIGHTBOX */
+.lightbox {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.95);
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+}
+
+.lightbox img {
+    max-width: 85%;
+    max-height: 85%;
+    border-radius: 12px;
+}
