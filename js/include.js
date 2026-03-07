@@ -1,11 +1,18 @@
 // Função para carregar includes
 function loadComponent(id, file) {
+  const target = document.getElementById(id);
+  if (!target) return;
+
   fetch(file)
     .then(res => res.text())
     .then(data => {
-      document.getElementById(id).innerHTML = data;
+      target.innerHTML = data;
       // Inicializa o menu APENAS depois que o header foi carregado
       if (id === "header") iniciarMenu();
+    })
+    .catch(() => {
+      const element = document.getElementById(id);
+      if (element) element.innerHTML = "";
     });
 }
 
@@ -22,7 +29,7 @@ function iniciarMenu() {
     overlay = document.createElement("div");
     overlay.classList.add("menu-overlay");
     // INSERE O OVERLAY ATRÁS DO MENU
-    document.body.insertBefore(overlay, menu);
+    document.body.appendChild(overlay);
   }
 
   // Funções abrir/fechar menu
@@ -65,3 +72,4 @@ document.addEventListener("DOMContentLoaded", function () {
   loadComponent("header", "components/header.html");
   loadComponent("footer", "components/footer.html");
 });
+
