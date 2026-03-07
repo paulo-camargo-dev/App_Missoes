@@ -1,187 +1,238 @@
-// ===================== HERO DINÂMICO =====================
+import { db } from "./firebase-config.js";
+import {
+    addDoc,
+    collection,
+    deleteDoc,
+    doc,
+    getDoc,
+    getDocs,
+    query,
+    orderBy,
+    setDoc
+} from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+
+const HERO_COLLECTION = "hero";
+const SOBRE_COLLECTION = "sobre";
+const SOBRE_DOC_ID = "principal";
+
+const fallbackBanners = [
+    {
+        imagem: "assets/images/banner1.jpg",
+        titulo: "Levando esperanca onde ha necessidade",
+        subtitulo: "Junte-se a nossa missao e faca parte da transformacao."
+    },
+    {
+        imagem: "assets/images/banner2.jpg",
+        titulo: "Impactando familias",
+        subtitulo: "Acoes sociais e evangelismo para alcancar mais pessoas."
+    },
+    {
+        imagem: "assets/images/banner3.jpeg",
+        titulo: "Missoes pelo mundo",
+        subtitulo: "Expandindo o Reino de Deus."
+    }
+];
+
+const fallbackSobre = {
+    titulo: "Quem Somos",
+    texto: "Somos um ministerio missionario comprometido com evangelismo e acao social."
+};
+
+async function fileToDataURL(file) {
+    return new Promise((resolve, reject) => {
+        const reader = new FileReader();
+        reader.onload = () => resolve(reader.result);
+        reader.onerror = () => reject(new Error("Falha ao ler imagem."));
+        reader.readAsDataURL(file);
+    });
+}
+
 async function carregarHeroHome() {
     const hero = document.getElementById("heroBanners");
     if (!hero) return;
 
     let banners = [];
     try {
-        const querySnapshot = await db.collection("heroBanners").get();
-        querySnapshot.forEach(docSnap => {
-            banners.push(docSnap.data());
-        });
-    } catch(e) {
-        console.error("Erro ao carregar banners do Firestore:", e);
+        const q = query(collection(db, HERO_COLLECTION), orderBy("createdAt", "desc"));
+        const querySnapshot = await getDocs(q);
+        querySnapshot.forEach((docSnap) => banners.push(docSnap.data()));
+    } catch (error) {
+        console.error("Erro ao carregar banners:", error);
     }
 
-    if (banners.length === 0) {
-        banners = [
-            {imagem:"assets/images/banner1.jpg", titulo:"Levando esperança onde há necessidade", subtitulo:"Junte-se à nossa missão e faça parte da transformação."},
-            {imagem:"assets/images/banner2.jpg", titulo:"Impactando famílias", subtitulo:"Através de ações sociais e evangelismo."},
-            {imagem:"assets/images/banner3.jpeg", titulo:"Missões pelo mundo", subtitulo:"Expandindo o Reino de Deus."}
-        ];
-    }
-
+    const source = banners.length > 0 ? banners : fallbackBanners;
     hero.innerHTML = "";
 
-    banners.forEach((b, i) => {
-        const div = document.createElement("div");
-        div.classList.add("hero-slide");
-        if (i === 0) div.classList.add("active");
-        div.style.backgroundImage = `url('${b.imagem}')`;
-        div.innerHTML = `
+    source.forEach((banner, index) => {
+        const slide = document.createElement("div");
+        slide.classList.add("hero-slide");
+        if (index === 0) slide.classList.add("active");
+        slide.style.backgroundImage = `url('${banner.imagem}')`;
+        slide.innerHTML = `
             <div class="hero-overlay"></div>
             <div class="hero-content">
-                <h1>${b.titulo}</h1>
-                <p>${b.subtitulo}</p>
+                <h1>${banner.titulo}</h1>
+                <p>${banner.subtitulo}</p>
             </div>
         `;
-        hero.appendChild(div);
+        hero.appendChild(slide);
     });
 
     let current = 0;
     setInterval(() => {
-        const slides = document.querySelectorAll('.hero-slide');
-        if (slides.length === 0) return;
-        slides[current].classList.remove('active');
+        const slides = hero.querySelectorAll(".hero-slide");
+        if (slides.length < 2) return;
+        slides[current].classList.remove("active");
         current = (current + 1) % slides.length;
-        slides[current].classList.add('active');
+        slides[current].classList.add("active");
     }, 5000);
 }
 
-// ===================== ADMIN HERO =====================
 async function carregarHeroAdmin() {
     const lista = document.getElementById("listaHeroAdmin");
     if (!lista) return;
 
     lista.innerHTML = "";
-
     try {
-        const querySnapshot = await db.collection("heroBanners").get();
-        querySnapshot.forEach((docSnap, i) => {
-            const b = docSnap.data();
-            const div = document.createElement("div");
-            div.classList.add("admin-item");
-            div.innerHTML = `
-                <img src="${b.imagem}" alt="Banner ${i + 1}">
+        const q = query(collection(db, HERO_COLLECTION), orderBy("createdAt", "desc"));
+        const querySnapshot = await getDocs(q);
+        querySnapshot.forEach((docSnap, index) => {
+            const banner = docSnap.data();
+            const item = document.createElement("div");
+            item.classList.add("admin-item");
+            item.innerHTML = `
+                <img src="${banner.imagem}" alt="Banner ${index + 1}">
                 <div>
-                    <strong>${b.titulo}</strong><br>
-                    <small>${b.subtitulo}</small>
+                    <strong>${banner.titulo}</strong><br>
+                    <small>${banner.subtitulo}</small>
                 </div>
                 <button onclick="removerHero('${docSnap.id}')">Excluir</button>
             `;
-            lista.appendChild(div);
+            lista.appendChild(item);
         });
-    } catch (e) {
-        console.error("Erro ao carregar banners admin:", e);
+    } catch (error) {
+        console.error("Erro ao carregar banners no admin:", error);
     }
 }
 
-// ===================== SALVAR HERO =====================
-window.salvarHero = async function () {
-    const titulo = document.getElementById("tituloHero").value;
-    const subtitulo = document.getElementById("subtituloHero").value;
-    const file = document.getElementById("imagemHero").files[0];
+window.salvarHero = async function salvarHero() {
+    const tituloEl = document.getElementById("tituloHero");
+    const subtituloEl = document.getElementById("subtituloHero");
+    const imagemEl = document.getElementById("imagemHero");
+    const previewEl = document.getElementById("previewHero");
 
-    if (!file) return alert("Selecione uma imagem");
-    if (!titulo || !subtitulo) return alert("Preencha todos os campos");
+    if (!tituloEl || !subtituloEl || !imagemEl) return;
 
-    const reader = new FileReader();
-    reader.onload = async function () {
-        try {
-            await db.collection("heroBanners").add({
-                titulo,
-                subtitulo,
-                imagem: reader.result
-            });
-            alert("Banner adicionado com sucesso!");
-            carregarHeroAdmin();
+    const titulo = tituloEl.value.trim();
+    const subtitulo = subtituloEl.value.trim();
+    const file = imagemEl.files?.[0];
 
-            document.getElementById("tituloHero").value = "";
-            document.getElementById("subtituloHero").value = "";
-            document.getElementById("imagemHero").value = "";
-            document.getElementById("previewHero").style.display = "none";
+    if (!file || !titulo || !subtitulo) {
+        alert("Preencha titulo, subtitulo e imagem.");
+        return;
+    }
 
-        } catch (e) {
-            console.error("Erro ao salvar banner:", e);
-            alert("Erro ao salvar banner, veja console.");
-        }
-    };
-    reader.readAsDataURL(file);
-};
+    if (file.size > 700 * 1024) {
+        alert("Imagem muito grande. Use uma imagem com ate 700KB.");
+        return;
+    }
 
-// ===================== REMOVER HERO =====================
-window.removerHero = async function (id) {
-    if (confirm("Deseja excluir este banner?")) {
-        try {
-            await db.collection("heroBanners").doc(id).delete();
-            carregarHeroAdmin();
-        } catch (e) {
-            console.error("Erro ao remover banner:", e);
-        }
+    try {
+        const imagemBase64 = await fileToDataURL(file);
+        await addDoc(collection(db, HERO_COLLECTION), {
+            titulo,
+            subtitulo,
+            imagem: imagemBase64,
+            createdAt: new Date()
+        });
+        tituloEl.value = "";
+        subtituloEl.value = "";
+        imagemEl.value = "";
+        if (previewEl) previewEl.style.display = "none";
+        await carregarHeroAdmin();
+        alert("Banner salvo com sucesso.");
+    } catch (error) {
+        console.error("Erro ao salvar banner:", error);
+        alert(`Nao foi possivel salvar o banner. ${error?.message ?? ""}`);
     }
 };
 
-// ===================== SOBRE =====================
+window.removerHero = async function removerHero(id) {
+    if (!id || !confirm("Deseja excluir este banner?")) return;
+    try {
+        await deleteDoc(doc(db, HERO_COLLECTION, id));
+        await carregarHeroAdmin();
+    } catch (error) {
+        console.error("Erro ao remover banner:", error);
+    }
+};
+
 async function carregarSobre() {
-    const sobreSection = document.getElementById("sobreSection");
-    if (!sobreSection) return;
-
-    let sobreData = { titulo: "Quem Somos", texto: "Somos um ministério missionário..." };
-
+    let sobreData = fallbackSobre;
     try {
-        const querySnapshot = await db.collection("sobre").get();
-        querySnapshot.forEach(docSnap => {
-            sobreData = docSnap.data();
-        });
-    } catch (e) {
-        console.error("Erro ao carregar 'Quem Somos':", e);
+        const docRef = doc(db, SOBRE_COLLECTION, SOBRE_DOC_ID);
+        const docSnap = await getDoc(docRef);
+        if (docSnap.exists()) sobreData = docSnap.data();
+    } catch (error) {
+        console.error("Erro ao carregar secao sobre:", error);
     }
 
-    sobreSection.innerHTML = `
-        <div class="container">
-            <h2>${sobreData.titulo}</h2>
-            <p>${sobreData.texto}</p>
-        </div>
-    `;
+    const sobreSection = document.getElementById("sobreSection");
+    if (sobreSection) {
+        sobreSection.innerHTML = `
+            <div class="container">
+                <h2>${sobreData.titulo}</h2>
+                <p>${sobreData.texto}</p>
+            </div>
+        `;
+    }
+
+    const tituloSobreInput = document.getElementById("tituloSobre");
+    const textoSobreInput = document.getElementById("textoSobre");
+    if (tituloSobreInput) tituloSobreInput.value = sobreData.titulo ?? "";
+    if (textoSobreInput) textoSobreInput.value = sobreData.texto ?? "";
 }
 
-// ===================== SALVAR SOBRE =====================
-window.salvarSobre = async function () {
-    const titulo = document.getElementById("tituloSobre").value;
-    const texto = document.getElementById("textoSobre").value;
+window.salvarSobre = async function salvarSobre() {
+    const tituloEl = document.getElementById("tituloSobre");
+    const textoEl = document.getElementById("textoSobre");
+    if (!tituloEl || !textoEl) return;
 
-    if (!titulo || !texto) return alert("Preencha todos os campos");
+    const titulo = tituloEl.value.trim();
+    const texto = textoEl.value.trim();
+    if (!titulo || !texto) {
+        alert("Preencha todos os campos.");
+        return;
+    }
 
     try {
-        await db.collection("sobre").doc("sobreDoc").set({ titulo, texto });
-        alert("Seção 'Quem Somos' atualizada!");
-        carregarSobre();
-    } catch (e) {
-        console.error("Erro ao salvar 'Quem Somos':", e);
-        alert("Erro ao salvar a seção, veja console.");
+        await setDoc(doc(db, SOBRE_COLLECTION, SOBRE_DOC_ID), { titulo, texto }, { merge: true });
+        alert("Secao atualizada com sucesso.");
+    } catch (error) {
+        console.error("Erro ao salvar secao sobre:", error);
+        alert(`Nao foi possivel salvar a secao. ${error?.message ?? ""}`);
     }
 };
 
-// ===================== PREVIEW IMAGEM =====================
 const inputImg = document.getElementById("imagemHero");
 if (inputImg) {
-    inputImg.addEventListener("change", function () {
-        const file = this.files[0];
-        if (file) {
-            const reader = new FileReader();
-            reader.onload = function () {
-                const img = document.getElementById("previewHero");
-                img.src = reader.result;
-                img.style.display = "block";
-            };
-            reader.readAsDataURL(file);
-        }
+    inputImg.addEventListener("change", function onChange() {
+        const file = this.files?.[0];
+        if (!file) return;
+
+        const reader = new FileReader();
+        reader.onload = () => {
+            const img = document.getElementById("previewHero");
+            if (!img) return;
+            img.src = reader.result;
+            img.style.display = "block";
+        };
+        reader.readAsDataURL(file);
     });
 }
 
-// ===================== INICIALIZAÇÃO =====================
-document.addEventListener("DOMContentLoaded", function () {
-    carregarHeroHome();
-    carregarHeroAdmin();
-    carregarSobre();
+document.addEventListener("DOMContentLoaded", async () => {
+    await Promise.all([carregarHeroHome(), carregarHeroAdmin(), carregarSobre()]);
 });
+
+
