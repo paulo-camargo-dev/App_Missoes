@@ -34,7 +34,7 @@ body {
 /* ============================= */
 #contato .container {
   background: linear-gradient(rgba(255, 255, 255, 0.78), rgba(255, 255, 255, 0.78)),
-    url("assets/jesus-orando.avif");
+    url("assets/images/jesus-orando.avif");
   background-position: center;
   background-size: cover;
   background-repeat: no-repeat;
@@ -154,4 +154,5 @@ body {
     font-size: 1.5rem;
   }
 }
+
 
