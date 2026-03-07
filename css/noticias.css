@@ -13,7 +13,7 @@ body {
     gap: 20px;
     padding: 20px;
 }
-.titulo-pagina{
+.titulo-pagina {
     text-align:center;
 }
 /* ===== CARD DE NOTÍCIA ===== */
@@ -108,3 +108,4 @@ body {
     }
 
 }
+
