@@ -13,7 +13,9 @@ body {
     gap: 20px;
     padding: 20px;
 }
-
+.titulo-pagina{
+    text-align:center;
+}
 /* ===== CARD DE NOTÍCIA ===== */
 .card-noticia {
     display: flex;
@@ -104,4 +106,5 @@ body {
         width: 100%;
         padding: 10px;
     }
+
 }
