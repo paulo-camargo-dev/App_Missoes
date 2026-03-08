@@ -1,22 +1,22 @@
+
 // =================== IMPORTS ===================
 import { db } from "./firebase-config.js";
 
-import { 
-  collection, 
-  addDoc, 
-  getDocs, 
-  deleteDoc, 
-  doc 
+import {
+  collection,
+  addDoc,
+  getDocs,
+  deleteDoc,
+  doc
 } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
 
-import { 
-  getAuth, 
-  onAuthStateChanged, 
-  signOut 
+import {
+  getAuth,
+  onAuthStateChanged,
+  signOut
 } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-auth.js";
 
 const auth = getAuth();
-
 
 // =================== PROTEGER PÁGINA ===================
 onAuthStateChanged(auth, (user) => {
@@ -25,257 +25,257 @@ onAuthStateChanged(auth, (user) => {
   }
 });
 
-
 // =================== VARIÁVEIS ===================
 let imagemNoticiaBase64 = "";
 let imagemFotoBase64 = "";
 
+// =================== PREVIEW IMAGEM NOTÍCIA ===================
+const imagemNoticiaInput = document.getElementById("imagemNoticia");
 
-// =================== PREVIEW DE IMAGEM NOTÍCIA ===================
-document.getElementById("imagemNoticia")?.addEventListener("change", function(e){
+imagemNoticiaInput?.addEventListener("change", (e) => {
+  const file = e.target.files[0];
+  if (!file) return;
 
-    const reader = new FileReader();
+  const reader = new FileReader();
 
-    reader.onload = function(event){
-        imagemNoticiaBase64 = event.target.result;
+  reader.onload = (event) => {
+    imagemNoticiaBase64 = event.target.result;
 
-        const preview = document.getElementById("previewNoticia");
+    const preview = document.getElementById("previewNoticia");
 
-        if(preview){
-            preview.src = imagemNoticiaBase64;
-            preview.style.display = "block";
-        }
-    };
+    if (preview) {
+      preview.src = imagemNoticiaBase64;
+      preview.style.display = "block";
+    }
+  };
 
-    reader.readAsDataURL(e.target.files[0]);
+  reader.readAsDataURL(file);
 });
 
+// =================== PREVIEW FOTO ===================
+const imagemFotoInput = document.getElementById("imagemFoto");
 
-// =================== PREVIEW DE FOTO ===================
-document.getElementById("imagemFoto")?.addEventListener("change", function(e){
+imagemFotoInput?.addEventListener("change", (e) => {
+  const file = e.target.files[0];
+  if (!file) return;
 
-    const reader = new FileReader();
+  const reader = new FileReader();
 
-    reader.onload = function(event){
-        imagemFotoBase64 = event.target.result;
-    };
+  reader.onload = (event) => {
+    imagemFotoBase64 = event.target.result;
+  };
 
-    reader.readAsDataURL(e.target.files[0]);
+  reader.readAsDataURL(file);
 });
-
 
 // =================== SALVAR NOTÍCIA ===================
-window.salvarNoticia = async function() {
+window.salvarNoticia = async function () {
 
-    const titulo = document.getElementById("tituloNoticia").value.trim();
-    const conteudo = document.getElementById("conteudoNoticia").value.trim();
+  const titulo = document.getElementById("tituloNoticia").value.trim();
+  const conteudo = document.getElementById("conteudoNoticia").value.trim();
 
-    if(!titulo || !conteudo || !imagemNoticiaBase64){
-        alert("Preencha todos os campos!");
-        return;
-    }
+  if (!titulo || !conteudo || !imagemNoticiaBase64) {
+    alert("Preencha todos os campos!");
+    return;
+  }
 
-    try {
+  try {
 
-        await addDoc(collection(db, "noticias"), {
-            titulo,
-            conteudo,
-            imagem: imagemNoticiaBase64,
-            data: new Date()
-        });
+    await addDoc(collection(db, "noticias"), {
+      titulo,
+      conteudo,
+      imagem: imagemNoticiaBase64,
+      data: new Date()
+    });
 
-        alert("Notícia publicada com sucesso!");
+    alert("Notícia publicada com sucesso!");
 
-        document.getElementById("tituloNoticia").value = "";
-        document.getElementById("conteudoNoticia").value = "";
-        document.getElementById("imagemNoticia").value = "";
-        document.getElementById("previewNoticia").style.display = "none";
+    document.getElementById("tituloNoticia").value = "";
+    document.getElementById("conteudoNoticia").value = "";
+    document.getElementById("imagemNoticia").value = "";
 
-        imagemNoticiaBase64 = "";
+    const preview = document.getElementById("previewNoticia");
+    if (preview) preview.style.display = "none";
 
-        carregarNoticiasAdmin();
+    imagemNoticiaBase64 = "";
 
-    } catch (e) {
+    carregarNoticiasAdmin();
 
-        console.error("Erro ao salvar notícia:", e);
-        alert("Erro ao salvar notícia.");
+  } catch (error) {
 
-    }
+    console.error("Erro ao salvar notícia:", error);
+    alert("Erro ao salvar notícia.");
+
+  }
 };
-
 
 // =================== SALVAR FOTO ===================
-window.salvarFoto = async function() {
+window.salvarFoto = async function () {
 
-    const titulo = document.getElementById("tituloFoto").value.trim();
-    const descricao = document.getElementById("descricaoFoto").value.trim();
+  const titulo = document.getElementById("tituloFoto").value.trim();
+  const descricao = document.getElementById("descricaoFoto").value.trim();
 
-    if(!titulo || !imagemFotoBase64){
-        alert("Preencha todos os campos!");
-        return;
-    }
+  if (!titulo || !imagemFotoBase64) {
+    alert("Preencha todos os campos!");
+    return;
+  }
 
-    try {
+  try {
 
-        await addDoc(collection(db, "galeria"), {
-            titulo,
-            descricao,
-            imagem: imagemFotoBase64,
-            data: new Date()
-        });
+    await addDoc(collection(db, "galeria"), {
+      titulo,
+      descricao,
+      imagem: imagemFotoBase64,
+      data: new Date()
+    });
 
-        alert("Foto publicada com sucesso!");
+    alert("Foto publicada com sucesso!");
 
-        document.getElementById("tituloFoto").value = "";
-        document.getElementById("descricaoFoto").value = "";
-        document.getElementById("imagemFoto").value = "";
+    document.getElementById("tituloFoto").value = "";
+    document.getElementById("descricaoFoto").value = "";
+    document.getElementById("imagemFoto").value = "";
 
-        imagemFotoBase64 = "";
+    imagemFotoBase64 = "";
 
-        carregarFotosAdmin();
+    carregarFotosAdmin();
 
-    } catch (e) {
+  } catch (error) {
 
-        console.error("Erro ao salvar foto:", e);
-        alert("Erro ao salvar foto.");
+    console.error("Erro ao salvar foto:", error);
+    alert("Erro ao salvar foto.");
 
-    }
+  }
 };
-
 
 // =================== CARREGAR NOTÍCIAS ===================
 async function carregarNoticiasAdmin() {
 
-    const container = document.getElementById("listaNoticiasAdmin");
+  const container = document.getElementById("listaNoticiasAdmin");
+  if (!container) return;
 
-    if(!container) return;
+  container.innerHTML = "";
 
-    container.innerHTML = "";
+  try {
 
-    try {
+    const querySnapshot = await getDocs(collection(db, "noticias"));
 
-        const querySnapshot = await getDocs(collection(db, "noticias"));
+    querySnapshot.forEach((docSnap) => {
 
-        querySnapshot.forEach((docSnap) => {
+      const noticia = docSnap.data();
 
-            const noticia = docSnap.data();
+      container.innerHTML += `
+        <div class="admin-item">
+          <img src="${noticia.imagem}" width="80">
+          <span>${noticia.titulo}</span>
+          <button onclick="excluirNoticiaAdmin('${docSnap.id}')">Excluir</button>
+        </div>
+      `;
 
-            container.innerHTML += `
-                <div class="admin-item">
-                    <img src="${noticia.imagem}" width="80">
-                    <span>${noticia.titulo}</span>
-                    <button onclick="excluirNoticiaAdmin('${docSnap.id}')">Excluir</button>
-                </div>
-            `;
+    });
 
-        });
+  } catch (error) {
 
-    } catch (e) {
+    console.error("Erro ao carregar notícias:", error);
 
-        console.error("Erro ao carregar notícias:", e);
-
-    }
+  }
 }
 
-
 // =================== EXCLUIR NOTÍCIA ===================
-window.excluirNoticiaAdmin = async function(id){
+window.excluirNoticiaAdmin = async function (id) {
 
-    if(confirm("Deseja excluir esta notícia?")){
+  if (!confirm("Deseja excluir esta notícia?")) return;
 
-        try {
+  try {
 
-            await deleteDoc(doc(db, "noticias", id));
-            carregarNoticiasAdmin();
+    await deleteDoc(doc(db, "noticias", id));
+    carregarNoticiasAdmin();
 
-        } catch(e){
+  } catch (error) {
 
-            console.error("Erro ao excluir notícia:", e);
+    console.error("Erro ao excluir notícia:", error);
 
-        }
-
-    }
+  }
 
 };
-
 
 // =================== CARREGAR FOTOS ===================
 async function carregarFotosAdmin() {
 
-    const container = document.getElementById("listaFotosAdmin");
+  const container = document.getElementById("listaFotosAdmin");
+  if (!container) return;
 
-    if(!container) return;
+  container.innerHTML = "";
 
-    container.innerHTML = "";
+  try {
 
-    try {
+    const querySnapshot = await getDocs(collection(db, "galeria"));
 
-        const querySnapshot = await getDocs(collection(db, "galeria"));
+    querySnapshot.forEach((docSnap) => {
 
-        querySnapshot.forEach((docSnap) => {
+      const foto = docSnap.data();
 
-            const foto = docSnap.data();
+      container.innerHTML += `
+        <div class="admin-item">
+          <img src="${foto.imagem}" width="80">
+          <span>${foto.titulo}</span>
+          <button onclick="excluirFotoAdmin('${docSnap.id}')">Excluir</button>
+        </div>
+      `;
 
-            container.innerHTML += `
-                <div class="admin-item">
-                    <img src="${foto.imagem}" width="80">
-                    <span>${foto.titulo}</span>
-                    <button onclick="excluirFotoAdmin('${docSnap.id}')">Excluir</button>
-                </div>
-            `;
+    });
 
-        });
+  } catch (error) {
 
-    } catch(e){
+    console.error("Erro ao carregar fotos:", error);
 
-        console.error("Erro ao carregar fotos:", e);
-
-    }
+  }
 
 }
 
-
 // =================== EXCLUIR FOTO ===================
-window.excluirFotoAdmin = async function(id){
+window.excluirFotoAdmin = async function (id) {
 
-    if(confirm("Deseja excluir esta foto?")){
+  if (!confirm("Deseja excluir esta foto?")) return;
 
-        try {
+  try {
 
-            await deleteDoc(doc(db, "galeria", id));
-            carregarFotosAdmin();
+    await deleteDoc(doc(db, "galeria", id));
+    carregarFotosAdmin();
 
-        } catch(e){
+  } catch (error) {
 
-            console.error("Erro ao excluir foto:", e);
+    console.error("Erro ao excluir foto:", error);
 
-        }
-
-    }
+  }
 
 };
-
 
 // =================== INICIALIZAÇÃO ===================
 document.addEventListener("DOMContentLoaded", () => {
 
-    carregarNoticiasAdmin();
-    carregarFotosAdmin();
+  carregarNoticiasAdmin();
+  carregarFotosAdmin();
 
-    const logoutBtn = document.getElementById("logoutBtn");
+  const logoutBtn = document.getElementById("logoutBtn");
 
-    if(logoutBtn){
+  if (logoutBtn) {
 
-        logoutBtn.addEventListener("click", () => {
+    logoutBtn.addEventListener("click", async () => {
 
-            signOut(auth).then(() => {
+      try {
 
-                window.location.href = "login.html";
+        await signOut(auth);
 
-            });
+        window.location.href = "login.html";
 
-        });
+      } catch (error) {
 
-    }
+        console.error("Erro ao sair:", error);
+
+      }
+
+    });
+
+  }
 
 });
