@@ -2,6 +2,26 @@
 import { db } from "./firebase-config.js";
 import { collection, addDoc, getDocs, deleteDoc, doc } 
 from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-auth.js";
+
+const auth = getAuth();
+
+onAuthStateChanged(auth, (user) => {
+  if (!user) {
+    window.location.href = "login.html";
+  }
+});
+import { getAuth, signOut } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-auth.js";
+
+const auth = getAuth();
+
+const logoutBtn = document.getElementById("logoutBtn");
+
+logoutBtn.addEventListener("click", () => {
+  signOut(auth).then(() => {
+    window.location.href = "login.html";
+  });
+});
 
 // =================== VARIÁVEIS ===================
 let imagemNoticiaBase64 = "";
@@ -143,4 +163,5 @@ window.excluirFotoAdmin = async function(id){
 document.addEventListener("DOMContentLoaded", () => {
     carregarNoticiasAdmin();
     carregarFotosAdmin();
+
 });
