@@ -1,4 +1,16 @@
-/* ================= RESET E BASE ================= */
+﻿/* ================= BASE ================= */
+:root {
+    --bg-1: #081226;
+    --bg-2: #122744;
+    --card: rgba(255, 255, 255, 0.1);
+    --card-border: rgba(255, 255, 255, 0.2);
+    --text: #f5f7fb;
+    --muted: #b7c3d8;
+    --primary: #2dd4bf;
+    --danger: #ef4444;
+    --danger-strong: #dc2626;
+}
+
 * {
     margin: 0;
     padding: 0;
@@ -6,143 +18,306 @@
 }
 
 body {
-    font-family: Arial, sans-serif;
-    background: #e4cccc;
-    color: #fff;
+    font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+    color: var(--text);
     margin: 0;
-    padding: 20px;
+    padding: 24px 18px 48px;
+    min-height: 100vh;
+    background:
+        radial-gradient(circle at 15% 10%, rgba(45, 212, 191, 0.25), transparent 45%),
+        radial-gradient(circle at 90% 80%, rgba(56, 189, 248, 0.2), transparent 45%),
+        linear-gradient(135deg, var(--bg-1), var(--bg-2));
 }
 
-/* ================= BOTÃO VOLTAR ================= */
-.btn-voltar {
-    padding: 8px 15px;
-    background-color: #1976d2;
-    color: #fff;
-    border: none;
-    border-radius: 6px;
-    cursor: pointer;
-    font-size: 14px;
-    transition: background-color 0.3s;
-    margin-bottom: 10px;
+#header {
+    margin-bottom: 14px;
 }
 
-.btn-voltar:hover {
-    background-color: #135ba1;
+.admin-content[hidden] {
+    display: none;
 }
 
-/* ================= PAINÉIS ================= */
-.admin-login, .admin-panel, .hero-form, .sobre-form {
-    max-width: 900px;
-    margin: 20px auto;
-    background: #0786b1;
-    padding: 20px;
+/* ================= AUTH ================= */
+.auth-gate {
+    min-height: calc(100vh - 48px);
+    display: grid;
+    place-items: center;
+    padding: 20px 10px;
+    transition: opacity 0.2s ease, transform 0.2s ease;
+}
+
+.auth-gate-exit {
+    opacity: 0;
+    transform: translateY(-10px);
+    pointer-events: none;
+}
+
+.auth-card {
+    width: 100%;
+    max-width: 420px;
+    background: var(--card);
+    border: 1px solid var(--card-border);
+    border-radius: 18px;
+    padding: 22px;
+    box-shadow: 0 16px 34px rgba(0, 0, 0, 0.24);
+    backdrop-filter: blur(8px);
+    animation: fade-up 0.35s ease both;
+}
+
+.auth-card h1 {
+    font-size: 24px;
+    margin-bottom: 8px;
+}
+
+.auth-card p {
+    color: var(--muted);
+    margin-bottom: 12px;
+}
+
+.auth-card input,
+.auth-card button {
+    width: 100%;
     border-radius: 12px;
-    box-shadow: 0 0 20px rgba(0,255,150,0.2);
-    color: #fff;
 }
 
-/* ================= TÍTULOS ================= */
-.hero-form h3, .sobre-form h3, .admin-login h3 {
+.auth-card input {
+    border: 1px solid rgba(255, 255, 255, 0.25);
+    background: rgba(8, 18, 38, 0.55);
+    color: var(--text);
+    padding: 12px 14px;
     margin-bottom: 10px;
-    color: #00ff99;
 }
 
-.hero-form h2 {
-    margin-bottom: 15px;
-    font-size: 18px;
-    color: #fff;
-}
-
-/* ================= INPUTS E TEXTAREAS ================= */
-.hero-form input, .hero-form textarea,
-.sobre-form input, .sobre-form textarea,
-.admin-login input {
-    display: block;
-    width: 100%;
-    padding: 10px;
-    margin-bottom: 10px;
-    border-radius: 6px;
-    border: none;
-    font-size: 14px;
-}
-
-/* ================= BOTÕES ================= */
-.hero-form button, .sobre-form button, .admin-login button {
-    width: 100%;
-    padding: 10px;
-    margin-top: 5px;
-    background-color: #00ff99;
-    color: #222;
-    font-weight: bold;
-    border: none;
-    border-radius: 6px;
+.auth-card button {
+    border: 0;
+    background: linear-gradient(90deg, var(--primary), #38bdf8);
+    color: #072027;
+    font-weight: 700;
+    font-size: 15px;
+    padding: 12px 14px;
     cursor: pointer;
-    transition: transform 0.2s, background-color 0.3s;
 }
 
-.hero-form button:hover, .sobre-form button:hover, .admin-login button:hover {
-    transform: scale(1.05);
-    background-color: #00cc7a;
-}
-
-/* ================= PREVIEW DE IMAGEM ================= */
-#previewHero, #previewNoticia, #previewFoto {
-    display: block;
-    max-width: 150px;
+.auth-error {
+    color: #fecaca;
+    min-height: 20px;
     margin-top: 10px;
-    border-radius: 8px;
 }
 
-/* ================= LISTA DE ITENS ================= */
+/* ================= PAINEIS ================= */
+.admin-panel,
+.hero-form,
+.sobre-form,
+.admin-login {
+    max-width: 1040px;
+    margin: 0 auto 20px;
+    padding: 24px;
+    border-radius: 18px;
+    background: var(--card);
+    border: 1px solid var(--card-border);
+    backdrop-filter: blur(8px);
+    box-shadow: 0 14px 35px rgba(0, 0, 0, 0.22);
+    animation: fade-up 0.45s ease both;
+}
+
+.admin-panel {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 14px;
+}
+
+/* ================= TITULOS ================= */
+.hero-form h2 {
+    margin: 4px 0 14px;
+    color: var(--muted);
+    font-size: 16px;
+    font-weight: 500;
+}
+
+.hero-form h3,
+.sobre-form h3,
+.admin-login h3 {
+    margin-bottom: 10px;
+    color: #e6fff9;
+    font-size: 22px;
+    letter-spacing: 0.3px;
+}
+
+/* ================= CAMPOS ================= */
+.hero-form input,
+.hero-form textarea,
+.sobre-form input,
+.sobre-form textarea,
+.admin-login input {
+    width: 100%;
+    border: 1px solid rgba(255, 255, 255, 0.25);
+    border-radius: 12px;
+    background: rgba(8, 18, 38, 0.55);
+    color: var(--text);
+    font-size: 15px;
+    padding: 12px 14px;
+    margin-bottom: 12px;
+    outline: none;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease, transform 0.2s ease;
+}
+
+.hero-form textarea,
+.sobre-form textarea {
+    min-height: 110px;
+    resize: vertical;
+}
+
+.hero-form input::placeholder,
+.hero-form textarea::placeholder,
+.sobre-form input::placeholder,
+.sobre-form textarea::placeholder {
+    color: #a7b7d0;
+}
+
+.hero-form input:focus,
+.hero-form textarea:focus,
+.sobre-form input:focus,
+.sobre-form textarea:focus,
+.admin-login input:focus {
+    border-color: var(--primary);
+    box-shadow: 0 0 0 3px rgba(45, 212, 191, 0.22);
+    transform: translateY(-1px);
+}
+
+/* ================= BOTOES ================= */
+.hero-form button,
+.sobre-form button,
+.admin-login button {
+    width: 100%;
+    border: 0;
+    border-radius: 12px;
+    background: linear-gradient(90deg, var(--primary), #38bdf8);
+    color: #072027;
+    font-weight: 700;
+    font-size: 15px;
+    padding: 12px 14px;
+    cursor: pointer;
+    transition: transform 0.18s ease, filter 0.2s ease;
+    box-shadow: 0 8px 18px rgba(45, 212, 191, 0.28);
+}
+
+.hero-form button:hover,
+.sobre-form button:hover,
+.admin-login button:hover {
+    transform: translateY(-2px);
+    filter: brightness(1.03);
+}
+
+.hero-form button:active,
+.sobre-form button:active,
+.admin-login button:active {
+    transform: translateY(0);
+}
+
+/* ================= PREVIEW ================= */
+#previewHero,
+#previewNoticia,
+#previewFoto {
+    display: block;
+    max-width: 220px;
+    width: 100%;
+    border-radius: 12px;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    margin: 4px 0 12px;
+}
+
+/* ================= LISTAGEM ================= */
 .admin-item {
-    display: flex;
+    display: grid;
+    grid-template-columns: 64px 1fr auto;
     align-items: center;
-    justify-content: space-between;
-    padding: 8px 12px;
-    margin: 8px 0;
-    border-radius: 8px;
-    background: #222;
-    gap: 10px;
+    gap: 12px;
+    margin-top: 10px;
+    padding: 10px 12px;
+    border-radius: 12px;
+    background: rgba(8, 18, 38, 0.6);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    transition: transform 0.18s ease, border-color 0.2s ease;
+}
+
+.admin-item:hover {
+    transform: translateY(-1px);
+    border-color: rgba(45, 212, 191, 0.45);
 }
 
 .admin-item img {
-    width: 60px;
-    height: 60px;
+    width: 64px;
+    height: 64px;
+    border-radius: 10px;
     object-fit: cover;
-    border-radius: 5px;
+}
+
+.admin-item span,
+.admin-item small,
+.admin-item strong {
+    color: var(--text);
+}
+
+.admin-item small {
+    color: var(--muted);
 }
 
 .admin-item button {
-    margin-left: auto;
-    background-color: #ff4444;
+    width: auto;
+    margin: 0;
+    padding: 8px 12px;
+    border-radius: 10px;
+    background: var(--danger);
     color: #fff;
-    border: none;
-    padding: 5px 10px;
-    border-radius: 5px;
-    cursor: pointer;
+    box-shadow: none;
 }
 
 .admin-item button:hover {
-    background-color: #a02727;
+    background: var(--danger-strong);
+}
+
+/* ================= ANIMACAO ================= */
+@keyframes fade-up {
+    from {
+        opacity: 0;
+        transform: translateY(12px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }
 
 /* ================= RESPONSIVO ================= */
-@media (max-width: 600px) {
-    .admin-panel, .hero-form, .sobre-form, .admin-login {
-        padding: 15px;
+@media (max-width: 700px) {
+    body {
+        padding: 14px 10px 28px;
+    }
+
+    .admin-panel,
+    .hero-form,
+    .sobre-form,
+    .admin-login {
+        padding: 16px;
+        border-radius: 14px;
+    }
+
+    .hero-form h3,
+    .sobre-form h3,
+    .admin-login h3 {
+        font-size: 19px;
     }
 
     .admin-item {
-        flex-direction: column;
-        align-items: flex-start;
+        grid-template-columns: 1fr;
+    }
+
+    .admin-item img {
+        width: 100%;
+        height: 150px;
     }
 
     .admin-item button {
-        margin-left: 0;
-        margin-top: 5px;
-    }
-
-    #previewHero, #previewNoticia, #previewFoto {
-        max-width: 100%;
+        width: 100%;
     }
 }

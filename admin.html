@@ -1,11 +1,11 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="pt-br">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Administração</title>
+<title>Administracao</title>
 <link rel="stylesheet" href="css/header.css">
-<link rel="stylesheet" href="css/adminhero.css"> <!-- unificado -->
+<link rel="stylesheet" href="css/adminhero.css">
 <!-- Firebase compat (permite usar sem import/export) -->
 <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
@@ -13,51 +13,76 @@
 </head>
 <body>
 
+<section id="adminAuthGate" class="auth-gate">
+    <div class="auth-card">
+        <h1>Painel Administrativo</h1>
+        <p>Digite a senha para acessar.</p>
+        <form id="adminAuthForm">
+            <input id="adminPassword" type="password" placeholder="Senha de acesso" required>
+            <button type="submit">Entrar</button>
+        </form>
+        <p id="adminAuthError" class="auth-error" aria-live="polite"></p>
+    </div>
+</section>
+
+<div id="adminContent" class="admin-content" hidden>
 <div id="header"></div>
 <br>
 
-<!-- PAINEL ADMIN -->
-    <div id="adminPanel" class="admin-panel box">
-    <!-- Seção Notícias -->
-        <div class="hero-form">
-            <div style="text-align:right; margin: 0 20px 15px 0;">
-            <button class="btn-voltar" onclick="voltarIndex()">← Carregar Home</button>
-             
-        </div>
-            <button id="logoutBtn">Sair</button>
-            <h3>Gerenciar Notícias</h3>
-            <input type="text" id="tituloNoticia" placeholder="Título da notícia" required>
-            <textarea id="conteudoNoticia" placeholder="Conteúdo" required></textarea>
-            <input type="file" id="imagemNoticia" accept="image/*" required>
-            <img id="previewNoticia" style="display:none;">
-            <button onclick="salvarNoticia()">Adicionar Notícia</button>
-            <div id="listaNoticiasAdmin"></div>
-        </div>
-    <br>
+<!-- Hero -->
+<div class="admin-panel box hero-form">
+    <h3>Gerenciar Hero</h3>
+    <h2>Painel de Publicacoes do Carrossel</h2>
 
-    <!-- Seção Fotos -->
-        <div class="sobre-form">
-            <h3>Gerenciar Galeria de Fotos</h3>
-            <input type="text" id="tituloFoto" placeholder="Título" required>
-            <input type="text" id="descricaoFoto" placeholder="Descrição" required>
-            <input type="file" id="imagemFoto" accept="image/*" required>
-            <button onclick="salvarFoto()">Adicionar Foto</button>
-            <div id="listaFotosAdmin"></div>
-        </div>
+    <input type="text" id="tituloHero" placeholder="Texto do H1" required>
+    <input type="text" id="subtituloHero" placeholder="Texto do P" required>
+    <input type="file" id="imagemHero" accept="image/*" required>
+    <img id="previewHero">
+    <button onclick="salvarHero()">Adicionar Banner</button>
 
+    <div id="listaHeroAdmin"></div>
+</div>
+<br>
+
+<!-- Quem Somos -->
+<div class="admin-panel box sobre-form">
+    <h3>Editar Secao "Quem Somos"</h3>
+    <input type="text" id="tituloSobre" placeholder="Titulo (H2)">
+    <textarea id="textoSobre" placeholder="Texto da secao"></textarea>
+    <button onclick="salvarSobre()">Salvar Alteracoes</button>
+</div>
+<br>
+
+<!-- Noticias -->
+<div id="adminPanel" class="admin-panel box">
+    <div class="hero-form">
+        <h3>Gerenciar Noticias</h3>
+        <input type="text" id="tituloNoticia" placeholder="Titulo da noticia" required>
+        <textarea id="conteudoNoticia" placeholder="Conteudo" required></textarea>
+        <input type="file" id="imagemNoticia" accept="image/*" required>
+        <img id="previewNoticia" style="display:none;">
+        <button onclick="salvarNoticia()">Adicionar Noticia</button>
+        <div id="listaNoticiasAdmin"></div>
     </div>
+</div>
+<br>
+
+<!-- Galeria -->
+<div class="admin-panel box">
+    <div class="sobre-form">
+        <h3>Gerenciar Galeria de Fotos</h3>
+        <input type="text" id="tituloFoto" placeholder="Titulo" required>
+        <input type="text" id="descricaoFoto" placeholder="Descricao" required>
+        <input type="file" id="imagemFoto" accept="image/*" required>
+        <button onclick="salvarFoto()">Adicionar Foto</button>
+        <div id="listaFotosAdmin"></div>
+    </div>
+</div>
+<br>
+</div>
 
 <script src="js/include.js"></script>
-<script src="js/admin.js" type="module"></script>
-
-<script>
-function voltarIndex() {
-    window.location.href = "adminHero.html";
-}
-</script>
+<script src="js/admin-access.js"></script>
 
 </body>
-
 </html>
-
-

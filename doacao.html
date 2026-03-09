@@ -1,88 +1,99 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="pt-br">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Faça a diferença</title>
-    
+    <title>Faca a Diferenca</title>
+
     <link rel="stylesheet" href="css/header.css">
-     <link rel="stylesheet" href="css/doacao.css">
-     <link rel="stylesheet" href="css/footer.css">
+    <link rel="stylesheet" href="css/doacao.css">
+    <link rel="stylesheet" href="css/footer.css">
 </head>
 <body>
-    <!--include-->
     <div id="header"></div>
-    <!--include-->
-<section class="topo">
-    <div class="icone">💛</div>
-    <span class="subtitulo">FAÇA A DIFERENÇA</span>
-    <h1>Contribua com as Missões</h1>
-    <p>Sua doação ajuda a transformar vidas. Cada contribuição é usada para levar esperança às comunidades necessitadas.</p>
-</section>
 
-<section class="tabs">
-    <button class="tab active" onclick="mostrarAba('pix')">📱 PIX</button>
-    <button class="tab" onclick="mostrarAba('transferencia')">🏦 Transferência</button>
-</section>
+    <main class="doacao-page">
+        <section class="topo">
+            <div class="hero-glow" aria-hidden="true"></div>
+            <div class="icone">❤</div>
+            <span class="subtitulo">FAÇA A DIFERENÇA</span>
+            <h1>Sua doacao alimenta esperanca</h1>
+            <p>
+                Cada contribuicao ajuda familias, fortalece projetos missionarios e leva cuidado
+                para quem mais precisa. Voce pode participar hoje.
+            </p>
+            <a class="cta-topo" href="#formas-doacao">Quero contribuir agora</a>
+        </section>
 
-<section id="pix" class="conteudo active">
+        <section class="impacto">
+            <div class="impacto-item">
+                <strong>+1.200</strong>
+                <span>familias alcancadas</span>
+            </div>
+            <div class="impacto-item">
+                <strong>37</strong>
+                <span>acoes missionarias</span>
+            </div>
+            <div class="impacto-item">
+                <strong>100%</strong>
+                <span>foco em impacto social</span>
+            </div>
+        </section>
 
-    <div class="card">
-        <h3>🔳 QR Code PIX</h3>
-        <div class="qr-box">
-            <img src="assets/images/qr.png" alt="QR Code PIX">
-        </div>
-        <p>Escaneie o código com o aplicativo do seu banco</p>
-    </div>
+        <section id="formas-doacao" class="tabs">
+            <button class="tab active" onclick="mostrarAba('pix')">PIX</button>
+            <button class="tab" onclick="mostrarAba('transferencia')">Transferencia</button>
+        </section>
 
-    <div class="card">
-        <h3>💳 Chave PIX</h3>
-        <div class="pix-chave">
-            missoes@exemplo.com.br
-            <span onclick="copiarPix()">📋</span>
-        </div>
+        <section id="pix" class="conteudo active">
+            <div class="card">
+                <h3>QR Code PIX</h3>
+                <div class="qr-box">
+                    <img src="assets/images/qr.png" alt="QR Code PIX">
+                </div>
+                <p>Escaneie com o app do seu banco e confirme o valor da doacao.</p>
+            </div>
 
-        <div class="passos">
-            <div><span>1</span> Abra o app do seu banco e acesse a área PIX</div>
-            <div><span>2</span> Cole a chave PIX ou escaneie o QR Code</div>
-            <div><span>3</span> Confirme o valor e finalize a doação</div>
-        </div>
-    </div>
+            <div class="card">
+                <h3>Chave PIX</h3>
+                <div class="pix-chave">
+                    <span>missoes@exemplo.com.br</span>
+                    <button type="button" class="copy-inline" onclick="copiarPix()">Copiar</button>
+                </div>
 
-</section>
+                <div class="passos">
+                    <div><span>1</span> Abra o app do banco e entre em PIX.</div>
+                    <div><span>2</span> Cole a chave ou use o QR Code.</div>
+                    <div><span>3</span> Confirme e finalize a contribuicao.</div>
+                </div>
+            </div>
+        </section>
 
-<section id="transferencia" class="conteudo">
+        <section id="transferencia" class="conteudo">
+            <div class="card centralizado">
+                <h3>Dados Bancarios</h3>
+                <div class="dados-banco">
+                    <p><strong>Banco:</strong> Banco do Brasil</p>
+                    <p><strong>Agencia:</strong> 0001</p>
+                    <p><strong>Conta:</strong> 12345-6</p>
+                    <p><strong>Nome:</strong> Missoes Transformando Vidas</p>
+                </div>
+                <button class="btn-principal" onclick="copiarTransferencia()">Copiar Dados</button>
+            </div>
+        </section>
 
-    <div class="card centralizado">
-        <h3>🏦 Dados Bancários</h3>
-        <br>
-        <p><strong>Banco:</strong> Banco do Brasil</p>
-        <br>
-        <p><strong>Agência:</strong> 0001</p>
-        <br>
-        <p><strong>Conta:</strong> 12345-6</p>
-        <br>
-        <p><strong>Nome:</strong> Missões Transformando Vidas</p>
-        <br>
-        <button onclick="copiarTransferencia()">Copiar Dados</button>
-    </div>
+        <section class="transparencia">
+            <h2>Transparencia e compromisso</h2>
+            <p>
+                Prestamos contas regularmente e compartilhamos resultados das acoes.
+                Sua contribuicao chega onde existe necessidade real.
+            </p>
+        </section>
+    </main>
 
-</section>
+    <div id="footer"></div>
 
-<section class="transparencia">
-    <h2>100% de transparência</h2>
-    <p>Todas as doações são utilizadas integralmente nas missões. Prestamos contas regularmente
-        e você pode acompanhar o impacto da sua contribuição através das nossas redes
-        sociais e galeria de fotos.
-    </p>
-</section>
-
-<div id="footer"></div>
-
-
-    
     <script src="js/include.js"></script>
     <script src="js/script.js"></script>
 </body>
-
 </html>

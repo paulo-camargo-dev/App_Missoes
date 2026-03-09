@@ -1,0 +1,74 @@
+﻿:root {
+  --bg-1: #071226;
+  --bg-2: #102847;
+  --surface: rgba(255, 255, 255, 0.92);
+  --text: #15314d;
+  --text-soft: #4f6785;
+  --brand: #0f766e;
+  --brand-2: #0891b2;
+}
+
+body {
+  margin: 0;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  color: var(--text);
+  background:
+    radial-gradient(circle at 10% 12%, rgba(15, 118, 110, 0.22), transparent 40%),
+    radial-gradient(circle at 88% 78%, rgba(245, 158, 11, 0.12), transparent 40%),
+    linear-gradient(145deg, var(--bg-1), var(--bg-2));
+  overflow-x: hidden;
+}
+
+.detalhe-wrap {
+  width: min(980px, 92vw);
+  margin: 28px auto 0;
+}
+
+.detalhe-card {
+  border-radius: 20px;
+  background: var(--surface);
+  border: 1px solid rgba(255, 255, 255, 0.44);
+  box-shadow: 0 18px 35px rgba(2, 6, 23, 0.18);
+  padding: 28px;
+}
+
+.detalhe-card h1 {
+  margin: 0 0 8px;
+  font-size: clamp(28px, 4vw, 44px);
+  color: #0f172a;
+}
+
+.detalhe-card p {
+  color: var(--text-soft);
+  line-height: 1.7;
+}
+
+.detalhe-cta {
+  margin-top: 18px;
+}
+
+.detalhe-cta a {
+  text-decoration: none;
+  color: #f0fdfa;
+  font-weight: 700;
+  padding: 10px 16px;
+  border-radius: 999px;
+  background: linear-gradient(90deg, var(--brand), var(--brand-2));
+  display: inline-block;
+}
+
+@media (max-width: 480px) {
+  .detalhe-wrap {
+    width: min(980px, 96vw);
+  }
+
+  .detalhe-card {
+    padding: 16px;
+    border-radius: 14px;
+  }
+
+  .detalhe-cta a {
+    width: 100%;
+    text-align: center;
+  }
+}
