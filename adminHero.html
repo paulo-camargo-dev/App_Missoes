@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Admin Hero</title>
+<link rel="stylesheet" href="css/header.css">
+<link rel="stylesheet" href="css/adminhero.css">
+<!-- Firebase compat (permite usar sem import/export) -->
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
+</head>
+<body>
+
+<div id="header"></div>
+<br>
+
+
+
+<!-- Box de gerenciamento do Hero -->
+<div class="admin-panel box hero-form">
+    <!-- Botão Voltar -->
+<div style="text-align:right; margin: 0 20px 15px 0;">
+    <button class="btn-voltar" onclick="voltarAdmin()">← Noticias e Galeria</button>
+</div>
+    <h3>Gerenciar Hero</h3>
+    <h2>Painel de Publicações do Carrossel</h2>
+
+    <input type="text" id="tituloHero" placeholder="Texto do H1" required>
+    <input type="text" id="subtituloHero" placeholder="Texto do P" required>
+    <input type="file" id="imagemHero" accept="image/*" required>
+    <img id="previewHero">
+    <button onclick="salvarHero()">Adicionar Banner</button>
+
+    <!-- Lista de banners existentes -->
+    <div id="listaHeroAdmin"></div>
+</div>
+<br>
+
+<!-- Seção Quem Somos -->
+<div class="admin-panel box sobre-form">
+    <h3>Editar Seção "Quem Somos"</h3>
+    <input type="text" id="tituloSobre" placeholder="Título (H2)">
+    <textarea id="textoSobre" placeholder="Texto da seção"></textarea>
+    <button onclick="salvarSobre()">Salvar Alterações</button>
+</div>
+<br>
+
+<script type="module" src="js/carregarHero.js"></script>
+<script src="js/include.js"></script>
+<script src="js/script.js"></script>
+
+<script>
+function voltarAdmin() {
+    window.location.href = "admin.html";
+}
+</script>
+
+</body>
+
+</html>
