@@ -1,5 +1,9 @@
 const ACCESS_KEY = "admin_access_ok";
-const ADMIN_EMAIL = "admin@missoes.com";
+
+// EMAIL DO ADMIN (precisa existir no Firebase Authentication)
+const ADMIN_EMAIL = "p.camargo1508@gmail.com";
+
+// CONFIG DO FIREBASE (mantida igual)
 const FIREBASE_CONFIG = {
     apiKey: "AIzaSyC9jZSgV-rA8V0IblMc6o5JKSaMQnmoyJ0",
     authDomain: "app-missao-login.firebaseapp.com",
@@ -18,6 +22,10 @@ const error = document.getElementById("adminAuthError");
 let scriptsLoaded = false;
 let gateRemoved = false;
 
+
+// =============================
+// CARREGAR SCRIPTS DO ADMIN
+// =============================
 function injectModuleScript(src) {
     const script = document.createElement("script");
     script.type = "module";
@@ -27,132 +35,216 @@ function injectModuleScript(src) {
 
 function loadAdminScripts() {
     if (scriptsLoaded) return;
+
     injectModuleScript("js/admin.js");
     injectModuleScript("js/adminhero.js");
+
     scriptsLoaded = true;
 }
 
+
+// =============================
+// ANIMAÇÃO DO GATE
+// =============================
 function removeGateWithAnimation() {
     if (!gate || gateRemoved) return;
 
     gate.classList.add("auth-gate-exit");
-    window.setTimeout(() => {
+
+    setTimeout(() => {
         gate.remove();
         gateRemoved = true;
-    }, 220);
+    }, 200);
 }
 
+
+// =============================
+// LIBERAR ADMIN
+// =============================
 function unlockAdmin() {
+
     sessionStorage.setItem(ACCESS_KEY, "1");
-    if (content) content.hidden = false;
+
+    if (content) {
+        content.hidden = false;
+    }
+
     removeGateWithAnimation();
     loadAdminScripts();
-    window.scrollTo({ top: 0, left: 0, behavior: "auto" });
+
+    window.scrollTo({
+        top: 0,
+        behavior: "auto"
+    });
 }
 
+
+// =============================
+// BLOQUEAR ADMIN
+// =============================
 function lockAdmin() {
     sessionStorage.removeItem(ACCESS_KEY);
 }
 
-function initFirebaseCompat() {
-    if (!window.firebase?.initializeApp || !window.firebase?.apps) return false;
-    if (window.firebase.apps.length > 0) return true;
 
-    try {
-        window.firebase.initializeApp(FIREBASE_CONFIG);
-        return true;
-    } catch (err) {
-        console.error("Erro ao inicializar Firebase compat:", err);
-        return false;
+// =============================
+// INICIAR FIREBASE
+// =============================
+function initFirebase() {
+
+    if (!window.firebase?.initializeApp) return false;
+
+    if (window.firebase.apps.length === 0) {
+
+        try {
+            window.firebase.initializeApp(FIREBASE_CONFIG);
+        } catch (err) {
+            console.error("Erro ao iniciar Firebase:", err);
+            return false;
+        }
+
     }
+
+    return true;
 }
 
-function getFirebaseAuthInstance() {
+
+// =============================
+// OBTER AUTH
+// =============================
+function getAuth() {
+
     if (!window.firebase?.auth) return null;
+
     try {
         return window.firebase.auth();
     } catch {
         return null;
     }
+
 }
 
-function clearLoginForm() {
+
+// =============================
+// LIMPAR FORM
+// =============================
+function clearForm() {
+
     if (input) input.value = "";
+
     if (error) error.textContent = "";
+
 }
 
-function waitForAuthReady(auth) {
-    return new Promise((resolve) => {
-        const unsubscribe = auth.onAuthStateChanged((user) => {
-            unsubscribe();
-            resolve(user);
-        });
-    });
-}
 
+// =============================
+// VERIFICAR SESSÃO
+// =============================
 async function tryRestoreSession() {
-    const auth = getFirebaseAuthInstance();
+
+    const auth = getAuth();
+
     if (!auth) {
         lockAdmin();
         return;
     }
 
-    const user = await waitForAuthReady(auth);
-    if (user) {
-        unlockAdmin();
-        return;
-    }
+    auth.onAuthStateChanged((user) => {
 
-    lockAdmin();
-}
-
-if (form) {
-    form.addEventListener("submit", async (event) => {
-        event.preventDefault();
-
-        const password = input?.value?.trim() ?? "";
-        initFirebaseCompat();
-        const auth = getFirebaseAuthInstance();
-
-        if (!auth) {
-            if (error) error.textContent = "Falha ao iniciar autenticacao.";
-            return;
+        if (user) {
+            unlockAdmin();
+        } else {
+            lockAdmin();
         }
 
+    });
+
+}
+
+
+// =============================
+// LOGIN ADMIN
+// =============================
+if (form) {
+
+    form.addEventListener("submit", async (e) => {
+
+        e.preventDefault();
+
+        const password = input?.value?.trim();
+
         if (!password) {
-            if (error) error.textContent = "Digite a senha.";
+
+            error.textContent = "Digite a senha.";
             return;
+
+        }
+
+        initFirebase();
+
+        const auth = getAuth();
+
+        if (!auth) {
+
+            error.textContent = "Erro ao iniciar autenticação.";
+            return;
+
         }
 
         try {
-            // Nao persiste login entre paginas/refresh: sempre exigira novo login.
-            await auth.setPersistence(window.firebase.auth.Auth.Persistence.NONE);
-            await auth.signInWithEmailAndPassword(ADMIN_EMAIL, password);
-            if (error) error.textContent = "";
-            clearLoginForm();
+
+            await auth.setPersistence(
+                window.firebase.auth.Auth.Persistence.NONE
+            );
+
+            await auth.signInWithEmailAndPassword(
+                ADMIN_EMAIL,
+                password
+            );
+
+            clearForm();
+
             unlockAdmin();
-            return;
+
         } catch (err) {
-            console.error("Erro no login admin:", err);
+
+            console.error("Erro login:", err);
+
+            error.textContent = "Senha incorreta.";
+
+            clearForm();
+
         }
 
-        if (error) error.textContent = "Senha incorreta.";
-        clearLoginForm();
     });
+
 }
 
+
+// =============================
+// EVENTOS
+// =============================
 window.addEventListener("DOMContentLoaded", () => {
-    initFirebaseCompat();
-    void tryRestoreSession();
+
+    initFirebase();
+
+    tryRestoreSession();
+
 });
 
+
 window.addEventListener("pagehide", () => {
-    const auth = getFirebaseAuthInstance();
+
+    const auth = getAuth();
+
     if (auth?.currentUser) {
         auth.signOut().catch(() => {});
     }
+
     lockAdmin();
-    clearLoginForm();
+
+    clearForm();
+
 });
 
 
