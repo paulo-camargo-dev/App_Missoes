@@ -1,9 +1,9 @@
 // =================== IMPORTS FIRESTORE ===================
 import { db } from "./firebase-config.js";
-import { collection, addDoc, getDocs, deleteDoc, doc } 
+import { collection, addDoc, getDocs, deleteDoc, doc }
 from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
 
-// =================== VARIÁVEIS ===================
+// =================== VARIAVEIS ===================
 let imagemNoticiaBase64 = "";
 let imagemFotoBase64 = "";
 
@@ -28,18 +28,18 @@ document.getElementById("imagemFoto")?.addEventListener("change", function(e){
     reader.readAsDataURL(e.target.files[0]);
 });
 
-// =================== SALVAR NOTÍCIAS ===================
+// =================== SALVAR NOTICIAS ===================
 window.salvarNoticia = async function() {
     const titulo = document.getElementById("tituloNoticia").value.trim();
     const conteudo = document.getElementById("conteudoNoticia").value.trim();
-    if(!titulo || !conteudo || !imagemNoticiaBase64) { 
-        alert("Preencha todos os campos!"); 
-        return; 
+    if(!titulo || !conteudo || !imagemNoticiaBase64) {
+        alert("Preencha todos os campos!");
+        return;
     }
 
     try {
         await addDoc(collection(db, "noticias"), { titulo, conteudo, imagem: imagemNoticiaBase64, data: new Date() });
-        alert("Notícia publicada com sucesso!");
+        alert("Noticia publicada com sucesso!");
         document.getElementById("tituloNoticia").value = "";
         document.getElementById("conteudoNoticia").value = "";
         document.getElementById("imagemNoticia").value = "";
@@ -47,8 +47,8 @@ window.salvarNoticia = async function() {
         imagemNoticiaBase64 = "";
         carregarNoticiasAdmin();
     } catch (e) {
-        console.error("Erro ao salvar notícia:", e);
-        alert("Erro ao salvar notícia, veja console.");
+        console.error("Erro ao salvar noticia:", e);
+        alert("Erro ao salvar noticia, veja console.");
     }
 }
 
@@ -56,9 +56,9 @@ window.salvarNoticia = async function() {
 window.salvarFoto = async function() {
     const titulo = document.getElementById("tituloFoto").value.trim();
     const descricao = document.getElementById("descricaoFoto").value.trim();
-    if(!titulo || !imagemFotoBase64) { 
-        alert("Preencha todos os campos!"); 
-        return; 
+    if(!titulo || !imagemFotoBase64) {
+        alert("Preencha todos os campos!");
+        return;
     }
 
     try {
@@ -75,7 +75,7 @@ window.salvarFoto = async function() {
     }
 }
 
-// =================== CARREGAR NOTÍCIAS ===================
+// =================== CARREGAR NOTICIAS ===================
 async function carregarNoticiasAdmin() {
     const container = document.getElementById("listaNoticiasAdmin");
     container.innerHTML = "";
@@ -91,18 +91,18 @@ async function carregarNoticiasAdmin() {
                 </div>
             `;
         });
-    } catch (e) { 
-        console.error("Erro ao carregar notícias:", e); 
+    } catch (e) {
+        console.error("Erro ao carregar noticias:", e);
     }
 }
 
 window.excluirNoticiaAdmin = async function(id){
-    if(confirm("Deseja excluir esta notícia?")){
-        try { 
-            await deleteDoc(doc(db, "noticias", id)); 
-            carregarNoticiasAdmin(); 
-        } catch(e){ 
-            console.error("Erro ao excluir notícia:", e); 
+    if(confirm("Deseja excluir esta noticia?")){
+        try {
+            await deleteDoc(doc(db, "noticias", id));
+            carregarNoticiasAdmin();
+        } catch(e){
+            console.error("Erro ao excluir noticia:", e);
         }
     }
 }
@@ -123,24 +123,34 @@ async function carregarFotosAdmin() {
                 </div>
             `;
         });
-    } catch(e){ 
-        console.error("Erro ao carregar fotos:", e); 
+    } catch(e){
+        console.error("Erro ao carregar fotos:", e);
     }
 }
 
 window.excluirFotoAdmin = async function(id){
     if(confirm("Deseja excluir esta foto?")){
-        try { 
-            await deleteDoc(doc(db, "galeria", id)); 
-            carregarFotosAdmin(); 
-        } catch(e){ 
-            console.error("Erro ao excluir foto:", e); 
+        try {
+            await deleteDoc(doc(db, "galeria", id));
+            carregarFotosAdmin();
+        } catch(e){
+            console.error("Erro ao excluir foto:", e);
         }
     }
 }
 
-// =================== INICIALIZAÇÃO ===================
-document.addEventListener("DOMContentLoaded", () => {
+window.carregarGaleriaAdmin = async function() {
+    await carregarFotosAdmin();
+};
+
+// =================== INICIALIZACAO ===================
+function initAdmin() {
     carregarNoticiasAdmin();
     carregarFotosAdmin();
-});
+}
+
+if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", initAdmin);
+} else {
+    initAdmin();
+}
