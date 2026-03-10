@@ -5,9 +5,11 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Missões - Transformando Vidas</title>
 <link rel="icon" type="image/png" href="assets/icons/m.png">
+<link rel="preload" as="image" href="assets/images/banner1.jpg">
 <link rel="stylesheet" href="css/footer.css">
 <link rel="stylesheet" href="css/header.css">
 <link rel="stylesheet" href="css/style.css">
+<link rel="stylesheet" href="css/qr.css">
 
 
 </head>
@@ -104,13 +106,11 @@
     </div>
 </section>
 
-
+<div id="qr"></div>
 <div id="footer"></div>
 
 
-<script src="js/include.js"></script>
-<script src="js/script.js"></script>
-<script type="module" src="js/carregarHero.js" defer></script>
+
 <button onclick="loginGitHub()">Login com GitHub</button>
 
 <script type="module">
@@ -144,7 +144,10 @@
         }
     }
 </script>
-
+<script src="js/include.js"></script>
+<script src="js/script.js"></script>
+<script src="js/qr.js"></script>
+<script type="module" src="js/carregarHero.js"></script>
 
 </body>
 </html>

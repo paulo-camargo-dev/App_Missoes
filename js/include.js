@@ -79,4 +79,5 @@ function loadComponent(id, file) {
 document.addEventListener("DOMContentLoaded", () => {
   loadComponent("header", "components/header.html");
   loadComponent("footer", "components/footer.html");
+  loadComponent("qr", "components/qr.html");
 });
