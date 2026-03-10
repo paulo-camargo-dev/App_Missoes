@@ -18,7 +18,7 @@ const SOBRE_DOC_ID = "principal";
 const fallbackBanners = [
     {
         imagem: "assets/images/banner1.jpg",
-        titulo: "Levando esperanca onde ha necessidade",
+        titulo: "Levando esperanca onde a necessidade",
         subtitulo: "Junte-se a nossa missao e faca parte da transformacao."
     },
     {
