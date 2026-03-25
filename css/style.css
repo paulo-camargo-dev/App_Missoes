@@ -115,7 +115,9 @@ iframe {
 .publicacoes {
   padding: 20px 0;
 }
-
+.sobre{
+  background color #ffffff;
+}
 .sobre .container,
 .areas .container,
 .publicacoes .container {
