@@ -117,7 +117,10 @@ const hero=document.getElementById("heroBanners");
 
 if(!hero) return;
 
-hero.innerHTML="";
+if(!hero.querySelector(".hero-slide")){
+renderHero(hero,fallbackBanners);
+iniciarSlider();
+}
 
 try{
 
