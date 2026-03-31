@@ -1,11 +1,11 @@
-﻿:root {
-  --bg-1: #071226;
-  --bg-2: #102847;
+:root {
+  --bg-1: #2b130d;
+  --bg-2: #5a2412;
   --surface: rgba(255, 255, 255, 0.9);
-  --text: #15314d;
-  --text-soft: #4f6785;
-  --brand: #0f766e;
-  --brand-2: #0891b2;
+  --text: #3b2418;
+  --text-soft: #765343;
+  --brand: #b24a18;
+  --brand-2: #7a3014;
 }
 
 * {
@@ -19,8 +19,8 @@ body {
   min-height: 100vh;
   color: var(--text);
   background:
-    radial-gradient(circle at 10% 12%, rgba(15, 118, 110, 0.22), transparent 40%),
-    radial-gradient(circle at 88% 78%, rgba(245, 158, 11, 0.12), transparent 40%),
+    radial-gradient(circle at 10% 12%, rgba(178, 74, 24, 0.22), transparent 40%),
+    radial-gradient(circle at 88% 78%, rgba(207, 127, 58, 0.14), transparent 40%),
     linear-gradient(145deg, var(--bg-1), var(--bg-2));
 }
 
@@ -29,7 +29,7 @@ body {
   justify-content: center;
   align-items: center;
   padding: 44px 16px;
-  background: url("assets/images/jesus-orando.avif") center/cover no-repeat;
+  background: url("../assets/images/jesus-orando.avif") center/cover no-repeat;
   position: relative;
 }
 
@@ -37,7 +37,7 @@ body {
   content: "";
   position: absolute;
   inset: 0;
-  background: linear-gradient(140deg, rgba(7, 18, 38, 0.62), rgba(15, 118, 110, 0.45));
+  background: linear-gradient(140deg, rgba(43, 19, 13, 0.62), rgba(178, 74, 24, 0.45));
 }
 
 #contato .container {
@@ -60,7 +60,7 @@ body {
 
 #contato h2 {
   text-align: center;
-  color: #0c4a6e;
+  color: #6b2f15;
   margin-bottom: 20px;
   font-size: clamp(28px, 3vw, 36px);
 }

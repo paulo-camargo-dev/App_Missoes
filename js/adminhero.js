@@ -8,20 +8,45 @@ import {
     getDocs,
     setDoc
 } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+import { compressImageToDataURL, formatKB } from "./image-optimizer.js";
 
 const HERO_COLLECTION = "hero";
 const SOBRE_COLLECTION = "sobre";
 const SOBRE_DOC_ID = "principal";
 
 const lista = document.getElementById("listaHeroAdmin");
+let imagemHeroBase64 = "";
+let processamentoHero = null;
 
-function fileToDataURL(file) {
-    return new Promise((resolve, reject) => {
-        const reader = new FileReader();
-        reader.onload = () => resolve(reader.result);
-        reader.onerror = () => reject(new Error("Falha ao ler imagem."));
-        reader.readAsDataURL(file);
+const HERO_IMAGE_OPTIONS = {
+    maxWidth: 1920,
+    maxHeight: 1080,
+    targetKB: 360,
+    maxPermitidoKB: 520
+};
+
+async function prepararImagemHero(file) {
+    const resultado = await compressImageToDataURL(file, {
+        maxWidth: HERO_IMAGE_OPTIONS.maxWidth,
+        maxHeight: HERO_IMAGE_OPTIONS.maxHeight,
+        targetKB: HERO_IMAGE_OPTIONS.targetKB
     });
+
+    if (!resultado.dataUrl) {
+        throw new Error("Nao foi possivel converter a imagem do banner.");
+    }
+
+    if (resultado.compressedBytes > HERO_IMAGE_OPTIONS.maxPermitidoKB * 1024) {
+        throw new Error(
+            `A imagem ainda ficou pesada (${formatKB(resultado.compressedBytes)}). ` +
+            "Tente uma foto menor para evitar erro no upload."
+        );
+    }
+
+    console.log(
+        `Banner comprimido: ${formatKB(resultado.originalBytes)} -> ${formatKB(resultado.compressedBytes)}`
+    );
+    return resultado.dataUrl;
 }
 
 export async function carregarHeroAdmin() {
@@ -89,23 +114,32 @@ window.salvarHero = async function salvarHero() {
     const subtitulo = subtituloEl.value.trim();
     const file = imagemEl.files?.[0];
 
+    if (processamentoHero) {
+        await processamentoHero.catch(() => null);
+    }
+
     if (!titulo || !subtitulo || !file) {
         alert("Preencha título, subtítulo e imagem.");
         return;
     }
 
+    if (!imagemHeroBase64) {
+        alert("Selecione uma imagem valida para o banner.");
+        return;
+    }
+
     try {
-        const imagem = await fileToDataURL(file);
         await addDoc(collection(db, HERO_COLLECTION), {
             titulo,
             subtitulo,
-            imagem,
+            imagem: imagemHeroBase64,
             createdAt: new Date()
         });
 
         tituloEl.value = "";
         subtituloEl.value = "";
         imagemEl.value = "";
+        imagemHeroBase64 = "";
         if (previewEl) previewEl.style.display = "none";
         await carregarHeroAdmin();
         alert("Banner adicionado com sucesso.");
@@ -147,18 +181,29 @@ window.salvarSobre = async function salvarSobre() {
 
 const inputImg = document.getElementById("imagemHero");
 if (inputImg) {
-    inputImg.addEventListener("change", function onChange() {
+    inputImg.addEventListener("change", async function onChange() {
         const file = this.files?.[0];
-        if (!file) return;
+        if (!file) {
+            imagemHeroBase64 = "";
+            return;
+        }
 
-        const reader = new FileReader();
-        reader.onload = () => {
+        processamentoHero = prepararImagemHero(file);
+        try {
+            imagemHeroBase64 = await processamentoHero;
             const img = document.getElementById("previewHero");
-            if (!img) return;
-            img.src = reader.result;
+            if (!img || !imagemHeroBase64) return;
+            img.src = imagemHeroBase64;
             img.style.display = "block";
-        };
-        reader.readAsDataURL(file);
+        } catch (erro) {
+            imagemHeroBase64 = "";
+            this.value = "";
+            const img = document.getElementById("previewHero");
+            if (img) img.style.display = "none";
+            alert(erro.message || "Nao foi possivel processar o banner.");
+        } finally {
+            processamentoHero = null;
+        }
     });
 }
 

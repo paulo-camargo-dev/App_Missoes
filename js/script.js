@@ -44,9 +44,16 @@ Nome: Missoes Transformando Vidas
 }
 
 document.querySelectorAll(".post-card").forEach((card, index) => {
+    const linkPai = card.closest("a[href]");
     card.style.cursor = "pointer";
+
+    // Se o card ja estiver dentro de um link, deixa o link do HTML controlar a navegacao.
+    if (linkPai) return;
+
+    const fallbackPages = ["paginaDetalhe2.html?id=2", "paginaDetalhe3.html?id=3"];
+    const destino = fallbackPages[index % fallbackPages.length];
     card.addEventListener("click", () => {
-        window.location.href = `paginaDetalhe.html?id=${index + 1}`;
+        window.location.href = destino;
     });
 });
 

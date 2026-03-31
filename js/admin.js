@@ -2,36 +2,91 @@
 import { db } from "./firebase-config.js";
 import { collection, addDoc, getDocs, deleteDoc, doc }
 from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+import { compressImageToDataURL, formatKB } from "./image-optimizer.js";
 
 // =================== VARIAVEIS ===================
 let imagemNoticiaBase64 = "";
 let imagemFotoBase64 = "";
+let processamentoNoticia = null;
+let processamentoFoto = null;
+
+const LIMITES_IMAGEM = {
+    noticia: { maxWidth: 1600, maxHeight: 1600, targetKB: 320, maxPermitidoKB: 480 },
+    galeria: { maxWidth: 1600, maxHeight: 1600, targetKB: 300, maxPermitidoKB: 450 }
+};
+
+async function prepararImagem(input, opcoes) {
+    const file = input?.files?.[0];
+    if (!file) {
+        return null;
+    }
+
+    const resultado = await compressImageToDataURL(file, {
+        maxWidth: opcoes.maxWidth,
+        maxHeight: opcoes.maxHeight,
+        targetKB: opcoes.targetKB
+    });
+
+    if (!resultado.dataUrl) {
+        throw new Error("Nao foi possivel converter esta imagem.");
+    }
+
+    if (resultado.compressedBytes > opcoes.maxPermitidoKB * 1024) {
+        throw new Error(
+            `A imagem ainda ficou pesada (${formatKB(resultado.compressedBytes)}). ` +
+            "Use uma foto menor para evitar erro no upload."
+        );
+    }
+
+    console.log(
+        `Imagem comprimida: ${formatKB(resultado.originalBytes)} -> ${formatKB(resultado.compressedBytes)}`
+    );
+    return resultado.dataUrl;
+}
 
 // =================== PREVIEW DE IMAGENS ===================
-document.getElementById("imagemNoticia")?.addEventListener("change", function(e){
-    const reader = new FileReader();
-    reader.onload = function(event){
-        imagemNoticiaBase64 = event.target.result;
-        const preview = document.getElementById("previewNoticia");
-        preview.src = imagemNoticiaBase64;
-        preview.style.display = "block";
-    };
-    reader.readAsDataURL(e.target.files[0]);
+document.getElementById("imagemNoticia")?.addEventListener("change", async function() {
+    const preview = document.getElementById("previewNoticia");
+    processamentoNoticia = prepararImagem(this, LIMITES_IMAGEM.noticia);
+
+    try {
+        imagemNoticiaBase64 = await processamentoNoticia;
+        if (preview && imagemNoticiaBase64) {
+            preview.src = imagemNoticiaBase64;
+            preview.style.display = "block";
+        }
+    } catch (erro) {
+        imagemNoticiaBase64 = "";
+        this.value = "";
+        if (preview) preview.style.display = "none";
+        alert(erro.message || "Nao foi possivel processar a imagem da noticia.");
+    } finally {
+        processamentoNoticia = null;
+    }
 });
 
-document.getElementById("imagemFoto")?.addEventListener("change", function(e){
-    const reader = new FileReader();
-    reader.onload = function(event){
-        imagemFotoBase64 = event.target.result;
-        console.log("Imagem pronta para upload");
-    };
-    reader.readAsDataURL(e.target.files[0]);
+document.getElementById("imagemFoto")?.addEventListener("change", async function() {
+    processamentoFoto = prepararImagem(this, LIMITES_IMAGEM.galeria);
+
+    try {
+        imagemFotoBase64 = await processamentoFoto;
+        console.log("Imagem da galeria pronta para upload");
+    } catch (erro) {
+        imagemFotoBase64 = "";
+        this.value = "";
+        alert(erro.message || "Nao foi possivel processar a imagem da galeria.");
+    } finally {
+        processamentoFoto = null;
+    }
 });
 
 // =================== SALVAR NOTICIAS ===================
 window.salvarNoticia = async function() {
     const titulo = document.getElementById("tituloNoticia").value.trim();
     const conteudo = document.getElementById("conteudoNoticia").value.trim();
+    if (processamentoNoticia) {
+        await processamentoNoticia.catch(() => null);
+    }
     if(!titulo || !conteudo || !imagemNoticiaBase64) {
         alert("Preencha todos os campos!");
         return;
@@ -56,6 +111,9 @@ window.salvarNoticia = async function() {
 window.salvarFoto = async function() {
     const titulo = document.getElementById("tituloFoto").value.trim();
     const descricao = document.getElementById("descricaoFoto").value.trim();
+    if (processamentoFoto) {
+        await processamentoFoto.catch(() => null);
+    }
     if(!titulo || !imagemFotoBase64) {
         alert("Preencha todos os campos!");
         return;

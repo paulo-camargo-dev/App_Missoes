@@ -117,11 +117,7 @@ const hero=document.getElementById("heroBanners");
 
 if(!hero) return;
 
-/* mostra fallback imediato */
-
-renderHero(hero,fallbackBanners);
-
-iniciarSlider();
+hero.innerHTML="";
 
 try{
 
@@ -146,11 +142,21 @@ renderHero(hero,banners);
 
 iniciarSlider();
 
+}else{
+
+renderHero(hero,fallbackBanners);
+
+iniciarSlider();
+
 }
 
 }catch(error){
 
 console.error("Erro ao carregar banners:",error);
+
+renderHero(hero,fallbackBanners);
+
+iniciarSlider();
 
 }
 

@@ -1,4 +1,4 @@
-﻿/* ================= BASE ================= */
+/* ================= BASE ================= */
 :root {
     --bg-1: #081226;
     --bg-2: #122744;
@@ -24,8 +24,8 @@ body {
     padding: 24px 18px 48px;
     min-height: 100vh;
     background:
-        radial-gradient(circle at 15% 10%, rgba(45, 212, 191, 0.25), transparent 45%),
-        radial-gradient(circle at 90% 80%, rgba(56, 189, 248, 0.2), transparent 45%),
+        radial-gradient(circle at 15% 10%, rgba(178, 74, 24, 0.25), transparent 45%),
+        radial-gradient(circle at 90% 80%, rgba(122, 48, 20, 0.2), transparent 45%),
         linear-gradient(135deg, var(--bg-1), var(--bg-2));
 }
 
@@ -210,7 +210,7 @@ body {
 .sobre-form textarea:focus,
 .admin-login input:focus {
     border-color: var(--primary);
-    box-shadow: 0 0 0 3px rgba(45, 212, 191, 0.22);
+    box-shadow: 0 0 0 3px rgba(178, 74, 24, 0.22);
     transform: translateY(-1px);
 }
 
@@ -228,7 +228,7 @@ body {
     padding: 12px 14px;
     cursor: pointer;
     transition: transform 0.18s ease, filter 0.2s ease;
-    box-shadow: 0 8px 18px rgba(45, 212, 191, 0.28);
+    box-shadow: 0 8px 18px rgba(178, 74, 24, 0.28);
 }
 
 .hero-form button:hover,
@@ -272,7 +272,7 @@ body {
 
 .admin-item:hover {
     transform: translateY(-1px);
-    border-color: rgba(45, 212, 191, 0.45);
+    border-color: rgba(178, 74, 24, 0.45);
 }
 
 .admin-item img {
