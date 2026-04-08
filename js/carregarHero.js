@@ -25,7 +25,7 @@ FALLBACK (CARREGA IMEDIATO)
 
 const fallbackBanners = [
 {
-imagem:"assets/images/banner1.jpg",
+imagem:"assets/images/banner1.jepg",
 titulo:"Levando esperança onde há necessidade",
 subtitulo:"Junte-se a nossa missão e faça parte da transformação."
 },
