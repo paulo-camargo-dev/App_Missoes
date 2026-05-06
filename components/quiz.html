@@ -1,0 +1,50 @@
+<div class="quiz-float">
+
+  <!-- POPUP DO QUIZ -->
+  <div class="quiz-popup" id="quizPopup">
+
+    <div id="quizApp">
+
+      <!-- INÍCIO -->
+      <div id="telaInicio">
+        <h2>📖 Quiz Bíblico</h2>
+        <p>Escolha o nível:</p>
+
+        <button onclick="iniciar('facil')">Fácil</button>
+        <button onclick="iniciar('medio')">Médio</button>
+        <button onclick="iniciar('dificil')">Difícil</button>
+      </div>
+
+      <!-- QUIZ -->
+      <div id="telaQuiz" style="display:none;">
+        <div id="topo">
+          <span id="progresso"></span>
+          <span id="pontuacao"></span>
+        </div>
+
+        <div id="barra">
+          <div id="barraProgresso"></div>
+        </div>
+
+        <h3 id="pergunta"></h3>
+        <div id="respostas"></div>
+        <p id="feedback"></p>
+      </div>
+
+      <!-- FINAL -->
+      <div id="telaFinal" style="display:none;">
+        <h2>🎉 Resultado</h2>
+        <p id="resultadoFinal"></p>
+        <button onclick="reiniciar()">Jogar novamente</button>
+      </div>
+
+    </div>
+
+  </div>
+
+  <!-- BOTÃO FLUTUANTE -->
+ <button class="quiz-btn" onclick="toggleQuiz()">
+  <img src="assets/icons/logo-144.png" alt="Quiz Bíblico">
+</button>
+
+</div>

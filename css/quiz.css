@@ -1,0 +1,101 @@
+.quiz-float {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  z-index: 9999;
+}
+
+/* botão */
+.quiz-btn {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  background: #4CAF50;
+  color: white;
+  font-size: 24px;
+  border: none;
+  cursor: pointer;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+}
+
+/* popup */
+.quiz-popup {
+  display: none;
+  position: absolute;
+  bottom: 70px;
+  right: 0;
+  width: 320px;
+  max-height: 500px;
+  background: white;
+  border-radius: 15px;
+  padding: 15px;
+  box-shadow: 0 6px 20px rgba(0,0,0,0.3);
+  overflow-y: auto;
+}
+
+/* app */
+#quizApp {
+  text-align: center;
+  font-family: Arial;
+}
+
+#quizApp button {
+  margin: 5px 0;
+  padding: 10px;
+  width: 100%;
+  border-radius: 8px;
+  border: none;
+  background: #2196F3;
+  color: white;
+  cursor: pointer;
+}
+
+#quizApp button:hover {
+  background: #1976D2;
+}
+
+#topo {
+  display: flex;
+  justify-content: space-between;
+  font-size: 12px;
+}
+
+#barra {
+  width: 100%;
+  height: 6px;
+  background: #ddd;
+  border-radius: 5px;
+  margin: 8px 0;
+}
+
+#barraProgresso {
+  height: 6px;
+  width: 0%;
+  background: #4CAF50;
+  border-radius: 5px;
+}
+
+.correto {
+  background: #4CAF50 !important;
+}
+
+.errado {
+  background: #f44336 !important;
+}
+.quiz-btn {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  background: #4CAF50;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.quiz-btn img {
+  width: 35px;
+  height: 35px;
+  object-fit: contain;
+}
