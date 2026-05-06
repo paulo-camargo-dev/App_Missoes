@@ -1,9 +1,9 @@
 /* ================= BASE ================= */
 :root {
-    --bg-1: #081226;
-    --bg-2: #122744;
-    --card: rgba(255, 255, 255, 0.1);
-    --card-border: rgba(255, 255, 255, 0.2);
+    --bg-1: #102033;
+    --bg-2: #17364a;
+    --card: rgba(255, 255, 255, 0.12);
+    --card-border: rgba(255, 255, 255, 0.22);
     --text: #f5f7fb;
     --muted: #b7c3d8;
     --primary: #2dd4bf;
@@ -24,9 +24,11 @@ body {
     padding: 24px 18px 48px;
     min-height: 100vh;
     background:
-        radial-gradient(circle at 15% 10%, rgba(178, 74, 24, 0.25), transparent 45%),
-        radial-gradient(circle at 90% 80%, rgba(122, 48, 20, 0.2), transparent 45%),
+        radial-gradient(circle at 12% 8%, rgba(45, 212, 191, 0.17), transparent 34%),
+        radial-gradient(circle at 88% 18%, rgba(245, 158, 11, 0.16), transparent 32%),
+        radial-gradient(circle at 76% 88%, rgba(178, 74, 24, 0.18), transparent 36%),
         linear-gradient(135deg, var(--bg-1), var(--bg-2));
+    background-attachment: fixed;
 }
 
 #header {

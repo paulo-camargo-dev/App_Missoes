@@ -1,12 +1,13 @@
 :root {
-  --footer-bg-1: #2b130d;
-  --footer-bg-2: #5a2412;
-  --footer-surface: rgba(255, 255, 255, 0.08);
-  --footer-border: rgba(255, 255, 255, 0.2);
-  --footer-text: #fff1e6;
-  --footer-muted: #d8b49d;
-  --footer-brand: #c55c22;
-  --footer-accent: #c97835;
+  /* FOOTER baseado no HEADER */
+  --footer-bg-1: rgba(255, 255, 255, 0.9);
+  --footer-bg-2: #b24a18;
+  --footer-surface: rgba(255, 255, 255, 0.1);
+  --footer-border: rgba(122, 48, 20, 0.25);
+  --footer-text: #2e221a;
+  --footer-muted: #38312d;
+  --footer-brand: #b24a18;
+  --footer-accent: #7a3014;
 }
 
 .footer {

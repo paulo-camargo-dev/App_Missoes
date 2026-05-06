@@ -185,6 +185,7 @@ body {
         place-items: center;
     }
 
+    /* 🔥 MENU HAMBURGUER TRANSPARENTE */
     .menu {
         position: fixed;
         top: 0;
@@ -197,9 +198,15 @@ body {
         align-items: stretch;
         gap: 10px;
         padding: 88px 18px 24px;
-        background: linear-gradient(155deg, #3a1a10, #6a2d14);
-        border-left: 1px solid rgba(165, 106, 78, 0.28);
-        box-shadow: -10px 0 28px rgba(2, 6, 23, 0.45);
+
+        /* AQUI A MUDANÇA */
+        background: rgba(255, 255, 255, 0.15);
+        backdrop-filter: blur(14px);
+        -webkit-backdrop-filter: blur(14px);
+
+        border-left: 1px solid rgba(255, 255, 255, 0.25);
+        box-shadow: -10px 0 28px rgba(2, 6, 23, 0.35);
+
         transform: translateX(100%);
         pointer-events: none;
         transition: transform 0.26s ease;
@@ -212,9 +219,9 @@ body {
     }
 
     .menu a {
-        color: #f6e8df;
-        background: rgba(255, 245, 238, 0.06);
-        border: 1px solid rgba(255, 232, 218, 0.14);
+        color: #fff;
+        background: rgba(255, 255, 255, 0.08);
+        border: 1px solid rgba(255, 255, 255, 0.2);
         border-radius: 12px;
         padding: 12px 14px;
     }
@@ -224,7 +231,7 @@ body {
     }
 
     .menu a:hover {
-        background: rgba(178, 74, 24, 0.18);
+        background: rgba(178, 74, 24, 0.25);
     }
 
     .menu a.active {
